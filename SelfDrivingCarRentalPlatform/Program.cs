@@ -1,7 +1,15 @@
+using DAOs;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<SdcrpDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("SdcrpConnection"));
+    options.UseNpgsql(builder => builder.MigrationsAssembly("SelfDrivingCarRentalPlatform"));
+});
 
 var app = builder.Build();
 

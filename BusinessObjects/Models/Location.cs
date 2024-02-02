@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BusinessObjects
+namespace BusinessObjects.Models
 {
     public class Location
     {
@@ -11,5 +11,7 @@ namespace BusinessObjects
 
         [Required]
         public bool IsDeleted { get; set; }
+
+        public IEnumerable<User> Users { get; set; } = Enumerable.Empty<User>();
     }
 }
