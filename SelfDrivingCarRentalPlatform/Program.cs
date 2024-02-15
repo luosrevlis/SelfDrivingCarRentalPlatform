@@ -11,7 +11,7 @@ builder.Services.AddDbContext<SdcrpDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("SdcrpConnection"));
     options.UseNpgsql(builder => builder.MigrationsAssembly("SelfDrivingCarRentalPlatform"));
 });
-builder.Services.AddSingletonService(); // add service for DI
+builder.Services.AddScopedService(); // add service for DI
 
 var app = builder.Build();
 
