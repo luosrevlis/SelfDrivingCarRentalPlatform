@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<SdcrpDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("SdcrpConnection"));
-    options.UseNpgsql(builder => builder.MigrationsAssembly("SelfDrivingCarRentalPlatform"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SdcrpConnection"));
+    options.UseSqlServer(builder => builder.MigrationsAssembly("SelfDrivingCarRentalPlatform"));
 }, ServiceLifetime.Singleton);
 builder.Services.InjectServices(); // add service for DI
 
