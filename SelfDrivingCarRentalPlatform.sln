@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfDrivingCarRentalPlatform", "SelfDrivingCarRentalPlatform\SelfDrivingCarRentalPlatform.csproj", "{DD7E37F7-AA21-4798-BFD8-1F8B1033F70E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SelfDrivingCarRentalPlatform", "SelfDrivingCarRentalPlatform\SelfDrivingCarRentalPlatform.csproj", "{DD7E37F7-AA21-4798-BFD8-1F8B1033F70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAOs", "DAOs\DAOs.csproj", "{E767B731-2B74-4F7C-A62B-FCF660626F03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAOs", "DAOs\DAOs.csproj", "{E767B731-2B74-4F7C-A62B-FCF660626F03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{8F521F6D-05B8-4187-A344-BB8C4FF145F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{8F521F6D-05B8-4187-A344-BB8C4FF145F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{02B17C55-93E8-4BFB-B20A-5DFD7F15B0C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{02B17C55-93E8-4BFB-B20A-5DFD7F15B0C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
