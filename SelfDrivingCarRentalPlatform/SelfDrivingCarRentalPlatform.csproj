@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Account\acc\**" />
+    <Content Remove="Pages\Account\acc\**" />
+    <EmbeddedResource Remove="Pages\Account\acc\**" />
+    <None Remove="Pages\Account\acc\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
       <PrivateAssets>all</PrivateAssets>
@@ -17,14 +24,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Repositories\Repositories.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Account\acc\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using BusinessObjects.Models;
-using DAOs;
+﻿using DAOs;
 using Microsoft.Extensions.DependencyInjection;
 using Repositories.Interfaces;
 using Repositories.Repository;
