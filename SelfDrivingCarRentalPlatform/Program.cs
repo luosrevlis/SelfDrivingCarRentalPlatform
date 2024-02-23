@@ -1,4 +1,6 @@
+using System.Formats.Asn1;
 using DAOs;
+using DAOs.Data;
 using Microsoft.EntityFrameworkCore;
 using Repositories.ServiceExtension;
 
@@ -38,6 +40,18 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<SdcrpDbContext>();
+try
+{
+	await context.Database.MigrateAsync();
+	await DBInitializer.Initialize(context);
+}
+catch (Exception ex)
+{
+	Console.WriteLine(ex);
+}
 
 app.MapRazorPages();
 
