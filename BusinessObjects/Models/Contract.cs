@@ -16,6 +16,10 @@ namespace BusinessObjects.Models
         [Required]
         [ForeignKey(nameof(Models.Car))]
         public int CarId { get; set; }
+        
+        [Required]
+        [ForeignKey(nameof(Transaction))]
+        public int TransactionId { get; set; }
 
         [Required]
         public DateTime RentStartDate { get; set; }
@@ -27,15 +31,12 @@ namespace BusinessObjects.Models
         public DateTime SignDate { get; set; }
 
         [Required]
-        public double TotalPrice { get; set; }
-
-        public double? Deposit { get; set; }
-
-        [Required]
         public bool IsDeleted { get; set; }
 
         public User Customer { get; set; } = null!;
 
         public Car Car { get; set; } = null!;
+
+        public Transaction Transaction { get; set; } = null!;
     }
 }

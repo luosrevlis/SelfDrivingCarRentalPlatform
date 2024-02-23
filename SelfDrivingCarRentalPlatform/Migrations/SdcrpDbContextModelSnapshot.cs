@@ -142,9 +142,6 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
-                    b.Property<double?>("Deposit")
-                        .HasColumnType("double precision");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -157,12 +154,14 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                     b.Property<DateTime>("SignDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("double precision");
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("TransactionId");
 
                     b.HasIndex("CarId", "RentStartDate")
                         .IsUnique();
@@ -216,6 +215,45 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("BusinessObjects.Models.Transaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("integer");
+
+                    b.Property<double?>("DamageFee")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Deposit")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("InsuranceFee")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("LateReturnPenalty")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("MortgageFee")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("OtherFees")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractId");
+
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("BusinessObjects.Models.User", b =>
@@ -315,9 +353,28 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BusinessObjects.Models.Transaction", "Transaction")
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Car");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("BusinessObjects.Models.Transaction", b =>
+                {
+                    b.HasOne("BusinessObjects.Models.Contract", "Contract")
+                        .WithMany()
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contract");
                 });
 
             modelBuilder.Entity("BusinessObjects.Models.User", b =>
