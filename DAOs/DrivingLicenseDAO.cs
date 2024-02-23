@@ -5,7 +5,7 @@ namespace DAOs;
 
 public class DrivingLicenseDAO : GenericDAO<DrivingLicense, int>
 {
-    public DrivingLicenseDAO(DbContext context) : base(context)
+    public DrivingLicenseDAO(SdcrpDbContext context) : base(context)
     {
     }
     

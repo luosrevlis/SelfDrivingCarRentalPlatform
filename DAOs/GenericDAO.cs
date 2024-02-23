@@ -4,10 +4,10 @@ namespace DAOs;
 
 public class GenericDAO<TEntity, TKey> where TEntity : class
 {
-    private readonly DbContext _context;
+    private readonly SdcrpDbContext _context;
     protected readonly DbSet<TEntity> _dbSet;
 
-    public GenericDAO(DbContext context)
+    public GenericDAO(SdcrpDbContext context)
     {
         _context = context;
         _dbSet = context.Set<TEntity>();

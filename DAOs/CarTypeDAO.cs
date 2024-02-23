@@ -5,7 +5,7 @@ namespace DAOs;
 
 public class CarTypeDAO : GenericDAO<CarType, int>
 {
-    public CarTypeDAO(DbContext context) : base(context)
+    public CarTypeDAO(SdcrpDbContext context) : base(context)
     {
     }
 }

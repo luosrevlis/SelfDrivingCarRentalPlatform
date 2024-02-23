@@ -10,8 +10,8 @@ builder.Services.AddDbContext<SdcrpDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("SdcrpConnection"));
     options.UseNpgsql(builder => builder.MigrationsAssembly("SelfDrivingCarRentalPlatform"));
-});
-builder.Services.AddScopedService(); // add service for DI
+}, ServiceLifetime.Singleton);
+builder.Services.InjectServices(); // add service for DI
 
 var app = builder.Build();
 

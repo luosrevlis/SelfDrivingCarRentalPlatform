@@ -5,7 +5,7 @@ namespace DAOs;
 
 public class LocationDAO : GenericDAO<Location, int>
 {
-    public LocationDAO(DbContext context) : base(context)
+    public LocationDAO(SdcrpDbContext context) : base(context)
     {
     }
 }

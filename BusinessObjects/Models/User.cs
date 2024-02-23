@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BusinessObjects.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,6 +31,9 @@ namespace BusinessObjects.Models
 
         [MinLength(1), MaxLength(255)]
         public string? Address { get; set; }
+
+        [Required]
+        public UserRole Role { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }

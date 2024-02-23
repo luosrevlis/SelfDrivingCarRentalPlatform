@@ -5,7 +5,7 @@ namespace DAOs;
 
 public class ContractDAO : GenericDAO<Contract, int>
 {
-    public ContractDAO(DbContext context) : base(context)
+    public ContractDAO(SdcrpDbContext context) : base(context)
     {
     }
 }
