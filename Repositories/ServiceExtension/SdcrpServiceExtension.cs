@@ -1,4 +1,5 @@
-﻿using DAOs;
+﻿using BusinessObjects.Models;
+using DAOs;
 using Microsoft.Extensions.DependencyInjection;
 using Repositories.Interfaces;
 using Repositories.Repository;
@@ -16,6 +17,7 @@ namespace Repositories.ServiceExtension
             services.AddSingleton<DrivingLicenseDAO>();
             services.AddSingleton<LocationDAO>();
             services.AddSingleton<UserDAO>();
+            services.AddSingleton<TransactionDAO>();
             services.AddTransient<ICarBrandRepository, CarBrandRepository>();
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<ICarTypeRepository, CarTypeRepository>();
@@ -23,6 +25,7 @@ namespace Repositories.ServiceExtension
             services.AddTransient<IDrivingLicenseRepository, DrivingLicenseRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
         }
     }
 }
