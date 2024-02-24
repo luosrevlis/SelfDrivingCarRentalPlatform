@@ -38,6 +38,9 @@ namespace BusinessObjects.Models
         [Required]
         public bool IsMortgageRequired { get; set; }
 
+        [Required, Range(0, 30)]
+        public int DepositRatio { get; set; }
+
         [Required]
         public CarStatus Status { get; set; }
 

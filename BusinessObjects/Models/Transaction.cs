@@ -10,7 +10,10 @@ public class Transaction
     [Required]
     [ForeignKey(nameof(Contract))]
     public int ContractId { get; set; }
-    
+
+    [Required]
+    public double TotalPrice { get; set; }
+
     [Required]
     public double InsuranceFee { get; set; }
     
@@ -25,8 +28,6 @@ public class Transaction
     public double? LateReturnPenalty { get; set; }
     
     public double? OtherFees { get; set; }
-    
-    public double TotalPrice { get; set; }
     
     public Contract Contract { get; set; } = null!;
 }
