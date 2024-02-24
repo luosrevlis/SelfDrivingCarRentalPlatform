@@ -1,4 +1,5 @@
-﻿using BusinessObjects.Enums;
+﻿using System.Collections;
+using BusinessObjects.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -49,6 +50,6 @@ namespace BusinessObjects.Models
 
         public CarBrand CarBrand { get; set; } = null!;
 
-        public IEnumerable<Contract> Contracts { get; set; } = Enumerable.Empty<Contract>();
+        public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
     }
 }

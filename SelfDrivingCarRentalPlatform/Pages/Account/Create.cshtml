@@ -1,0 +1,66 @@
+@page
+@using BusinessObjects.Enums
+@model SelfDrivingCarRentalPlatform.Pages.Account.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="User.LocationId" class="control-label"></label>
+                <select asp-for="User.LocationId" class ="form-control" asp-items="ViewBag.LocationId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Fullname" class="control-label"></label>
+                <input asp-for="User.Fullname" class="form-control" />
+                <span asp-validation-for="User.Fullname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Email" class="control-label"></label>
+                <input asp-for="User.Email" class="form-control" />
+                <span asp-validation-for="User.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Password" class="control-label"></label>
+                <input asp-for="User.Password" class="form-control" />
+                <span asp-validation-for="User.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Phone" class="control-label"></label>
+                <input asp-for="User.Phone" class="form-control" />
+                <span asp-validation-for="User.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Address" class="control-label"></label>
+                <input asp-for="User.Address" class="form-control" />
+                <span asp-validation-for="User.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Role" class="control-label"></label>
+                <select asp-for="User.Role" class="form-control">  
+                    <option value="@UserRole.Customer">@UserRole.Customer</option>
+                    <option value="@UserRole.CarOwner">@UserRole.CarOwner</option></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Login">Back to Login</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

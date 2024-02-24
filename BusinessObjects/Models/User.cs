@@ -38,12 +38,12 @@ namespace BusinessObjects.Models
         [Required]
         public bool IsDeleted { get; set; }
 
-        public Location Location { get; set; } = null!;
+        public Location? Location { get; set; } = null!;
 
         public DrivingLicense? DrivingLicense { get; set; }
 
-        public IEnumerable<Car> Cars { get; set; } = Enumerable.Empty<Car>();
+        public ICollection<Car>? Cars { get; set; } = new List<Car>();
 
-        public IEnumerable<Contract> Contracts { get; set; } = Enumerable.Empty<Contract>();
+        public ICollection<Contract>? Contracts { get; set; } = new List<Contract>();
     }
 }
