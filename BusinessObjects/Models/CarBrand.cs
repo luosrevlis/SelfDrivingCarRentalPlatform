@@ -15,6 +15,6 @@ namespace BusinessObjects.Models
         [Required]
         public bool IsDeleted { get; set; }
 
-        public IEnumerable<Car> Cars { get; set; } = Enumerable.Empty<Car>();
+        public ICollection<Car> Cars { get; set; } = new List<Car>();
     }
 }
