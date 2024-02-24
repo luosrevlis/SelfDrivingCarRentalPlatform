@@ -4,6 +4,7 @@ using DAOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SelfDrivingCarRentalPlatform.Migrations
 {
     [DbContext(typeof(SdcrpDbContext))]
-    partial class SdcrpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240224105855_AddDepositRatio")]
+    partial class AddDepositRatio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,9 +160,14 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                     b.Property<DateTime>("SignDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("TransactionId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("TransactionId");
 
                     b.HasIndex("CarId", "RentStartDate")
                         .IsUnique();
@@ -218,6 +226,12 @@ namespace SelfDrivingCarRentalPlatform.Migrations
             modelBuilder.Entity("BusinessObjects.Models.Transaction", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ContractId")
                         .HasColumnType("int");
 
                     b.Property<double?>("DamageFee")
@@ -242,6 +256,8 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContractId");
 
                     b.ToTable("Transaction");
                 });
@@ -344,16 +360,24 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BusinessObjects.Models.Transaction", "Transaction")
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Car");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Transaction");
                 });
 
             modelBuilder.Entity("BusinessObjects.Models.Transaction", b =>
                 {
                     b.HasOne("BusinessObjects.Models.Contract", "Contract")
-                        .WithOne("Transaction")
-                        .HasForeignKey("BusinessObjects.Models.Transaction", "Id")
+                        .WithMany()
+                        .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -390,12 +414,6 @@ namespace SelfDrivingCarRentalPlatform.Migrations
             modelBuilder.Entity("BusinessObjects.Models.CarType", b =>
                 {
                     b.Navigation("Cars");
-                });
-
-            modelBuilder.Entity("BusinessObjects.Models.Contract", b =>
-                {
-                    b.Navigation("Transaction")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BusinessObjects.Models.DrivingLicense", b =>

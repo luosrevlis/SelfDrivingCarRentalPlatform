@@ -4,6 +4,7 @@ using DAOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SelfDrivingCarRentalPlatform.Migrations
 {
     [DbContext(typeof(SdcrpDbContext))]
-    partial class SdcrpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240224123632_TransactionIdChange")]
+    partial class TransactionIdChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,7 +220,7 @@ namespace SelfDrivingCarRentalPlatform.Migrations
 
             modelBuilder.Entity("BusinessObjects.Models.Transaction", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DuplicateId")
                         .HasColumnType("int");
 
                     b.Property<double?>("DamageFee")
@@ -241,7 +244,7 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
-                    b.HasKey("Id");
+                    b.HasKey("DuplicateId");
 
                     b.ToTable("Transaction");
                 });
@@ -353,7 +356,7 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                 {
                     b.HasOne("BusinessObjects.Models.Contract", "Contract")
                         .WithOne("Transaction")
-                        .HasForeignKey("BusinessObjects.Models.Transaction", "Id")
+                        .HasForeignKey("BusinessObjects.Models.Transaction", "DuplicateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
