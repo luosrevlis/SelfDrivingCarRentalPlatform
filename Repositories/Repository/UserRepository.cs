@@ -18,6 +18,11 @@ public class UserRepository : IUserRepository
         return _userDAO.GetAll();
     }
 
+    public User GetById(int id)
+    {
+        return _userDAO.GetById(id);
+    }
+
     public void Add(User user)
     {
         _userDAO.Add(user);

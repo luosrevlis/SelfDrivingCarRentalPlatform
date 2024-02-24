@@ -17,6 +17,11 @@ public class CarRepository : ICarRepository
         return _carDAO.GetAll();
     }
 
+    public Car GetById(int id)
+    {
+        return _carDAO.GetById(id);
+    }
+
     public void Add(Car car)
     {
         _carDAO.Add(car);

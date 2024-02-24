@@ -16,10 +16,6 @@ namespace BusinessObjects.Models
         [Required]
         [ForeignKey(nameof(Models.Car))]
         public int CarId { get; set; }
-        
-        [Required]
-        [ForeignKey(nameof(Transaction))]
-        public int TransactionId { get; set; }
 
         [Required]
         public DateTime RentStartDate { get; set; }

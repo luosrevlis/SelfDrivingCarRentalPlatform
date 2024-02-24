@@ -5,11 +5,9 @@ namespace BusinessObjects.Models;
 
 public class Transaction
 {
+    [Key]
+    [ForeignKey(nameof(Models.Contract))]
     public int Id { get; set; }
-    
-    [Required]
-    [ForeignKey(nameof(Contract))]
-    public int ContractId { get; set; }
 
     [Required]
     public double TotalPrice { get; set; }
@@ -28,6 +26,6 @@ public class Transaction
     public double? LateReturnPenalty { get; set; }
     
     public double? OtherFees { get; set; }
-    
+
     public Contract Contract { get; set; } = null!;
 }
