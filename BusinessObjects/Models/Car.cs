@@ -11,9 +11,9 @@ namespace BusinessObjects.Models
     {
         public int Id { get; set; }
 
-        
+        [Required]
         [ForeignKey(nameof(User))]
-        public int? CarOwnerId { get; set; }
+        public int CarOwnerId { get; set; }
 
         [Required]
         [ForeignKey(nameof(Models.CarType))]
@@ -40,7 +40,9 @@ namespace BusinessObjects.Models
 
         [Required, Range(0, 30)]
         public int DepositRatio { get; set; }
+        [Required]
         public CarStatus Status { get; set; } = CarStatus.Available;
+        [Required]
         public bool IsDeleted { get; set; } 
 
         public User? CarOwner { get; set; } = null!;
