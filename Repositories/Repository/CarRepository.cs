@@ -1,5 +1,6 @@
 using BusinessObjects.Models;
 using DAOs;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Interfaces;
 
 namespace Repositories.Repository;
@@ -14,7 +15,10 @@ public class CarRepository : ICarRepository
     }
     public IEnumerable<Car> GetAll()
     {
-        return _carDAO.GetAll();
+        return _carDAO.GetAll()
+            .Include(c => c.CarBrand)
+            .Include(c => c.CarOwner)
+            .Include(c => c.CarType);
     }
 
     public Car GetById(int id)

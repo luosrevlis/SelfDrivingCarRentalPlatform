@@ -99,6 +99,8 @@ public static class DBInitializer
                         IsDeleted = false
                     }
                 },
+                
+                
             };
 
             foreach (var user in users)

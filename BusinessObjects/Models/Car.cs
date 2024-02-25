@@ -11,9 +11,9 @@ namespace BusinessObjects.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        
         [ForeignKey(nameof(User))]
-        public int CarOwnerId { get; set; }
+        public int? CarOwnerId { get; set; }
 
         [Required]
         [ForeignKey(nameof(Models.CarType))]
@@ -40,18 +40,14 @@ namespace BusinessObjects.Models
 
         [Required, Range(0, 30)]
         public int DepositRatio { get; set; }
+        public CarStatus Status { get; set; } = CarStatus.Available;
+        public bool IsDeleted { get; set; } 
 
-        [Required]
-        public CarStatus Status { get; set; }
+        public User? CarOwner { get; set; } = null!;
 
-        [Required]
-        public bool IsDeleted { get; set; }
+        public CarType? CarType { get; set; } = null!;
 
-        public User CarOwner { get; set; } = null!;
-
-        public CarType CarType { get; set; } = null!;
-
-        public CarBrand CarBrand { get; set; } = null!;
+        public CarBrand? CarBrand { get; set; } = null!;
 
         public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
     }
