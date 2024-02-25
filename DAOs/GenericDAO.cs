@@ -35,9 +35,9 @@ public class GenericDAO<TEntity, TKey> where TEntity : class
         
     }
 
-    public IEnumerable<TEntity> GetAll()
+    public IQueryable<TEntity> GetAll()
     {
-        return _dbSet.ToList();
+        return _dbSet;
     }
 
     public TEntity GetById(TKey id)

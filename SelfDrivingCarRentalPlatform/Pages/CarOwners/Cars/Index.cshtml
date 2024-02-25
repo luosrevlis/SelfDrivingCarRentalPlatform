@@ -1,0 +1,94 @@
+@page
+@model SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Cars List</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].PlateNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].CarRegisterNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].PricePerDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].IsElectric)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].IsMortgageRequired)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].DepositRatio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].CarOwner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].CarType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].CarBrand)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Car) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlateNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarRegisterNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PricePerDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsElectric)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsMortgageRequired)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepositRatio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarOwner.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarType.TypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarBrand.BrandName)
+            </td>
+            <td>
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
