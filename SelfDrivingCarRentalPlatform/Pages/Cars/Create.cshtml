@@ -1,0 +1,76 @@
+﻿@page
+@model SelfDrivingCarRentalPlatform.Pages.Cars.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Car</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Car.CarOwnerId" class="control-label"></label>
+                <select asp-for="Car.CarOwnerId" class ="form-control" asp-items="ViewBag.CarOwnerId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.CarTypeId" class="control-label"></label>
+                <select asp-for="Car.CarTypeId" class ="form-control" asp-items="ViewBag.CarTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.CarBrandId" class="control-label"></label>
+                <select asp-for="Car.CarBrandId" class ="form-control" asp-items="ViewBag.CarBrandId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.PlateNumber" class="control-label"></label>
+                <input asp-for="Car.PlateNumber" class="form-control" />
+                <span asp-validation-for="Car.PlateNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.CarRegisterNumber" class="control-label"></label>
+                <input asp-for="Car.CarRegisterNumber" class="form-control" />
+                <span asp-validation-for="Car.CarRegisterNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.PricePerDay" class="control-label"></label>
+                <input asp-for="Car.PricePerDay" class="form-control" />
+                <span asp-validation-for="Car.PricePerDay" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Car.IsElectric" /> @Html.DisplayNameFor(model => model.Car.IsElectric)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Car.IsMortgageRequired" /> @Html.DisplayNameFor(model => model.Car.IsMortgageRequired)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.Status" class="control-label"></label>
+                <select asp-for="Car.Status" class="form-control"></select>
+                <span asp-validation-for="Car.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Car.IsDeleted" /> @Html.DisplayNameFor(model => model.Car.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
