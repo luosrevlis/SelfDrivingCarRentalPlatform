@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DAOs;
 
@@ -49,5 +50,9 @@ public class GenericDAO<TEntity, TKey> where TEntity : class
         _dbSet.Attach(entity);
         _context.Entry(entity).State = EntityState.Modified;
         _context.SaveChanges();
+    }
+    public ICollection<TEntity> GetListByProperty(Expression<Func<TEntity, bool>> predicate)
+    {
+        return _dbSet.Where(predicate).ToList();
     }
 }
