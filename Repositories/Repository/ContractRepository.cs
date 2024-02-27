@@ -1,6 +1,8 @@
 using BusinessObjects.Models;
 using DAOs;
 using Repositories.Interfaces;
+using System.Linq.Expressions;
+using System;
 
 namespace Repositories.Repository;
 
@@ -31,5 +33,10 @@ public class ContractRepository : IContractRepository
     public bool Remove(Contract contract)
     {
         return _contractDAO.Delete(contract);
+    }
+
+    public ICollection<Contract> GetAllByProperty(Expression<Func<Contract, bool>> condition)
+    {
+         return _contractDAO.GetListByProperty(condition);
     }
 }
