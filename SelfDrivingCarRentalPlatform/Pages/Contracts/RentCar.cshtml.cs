@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BusinessObjects.Models;
 using Repositories.Interfaces;
-using SelfDrivingCarRentalPlatform.Constants;
 using BusinessObjects.Enums;
 using SelfDrivingCarRentalPlatform.Attributes;
 
