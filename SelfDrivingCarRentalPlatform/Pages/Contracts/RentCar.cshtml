@@ -10,14 +10,59 @@
 <h4>Contract</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Contract.CarId" />
             <input type="hidden" asp-for="Contract.RentStartDate" />
             <input type="hidden" asp-for="Contract.RentEndDate" />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Car
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Contract.Car.CarModel)
+                    @Html.DisplayFor(model => model.Contract.Car.PlateNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    Rent Start Date
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Contract.RentStartDate)
+                </dd>
+                <dt class="col-sm-2">
+                    Rent End Date
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Contract.RentEndDate)
+                </dd>
+                <dt class="col-sm-2">
+                    Rent Fee
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Transaction.TotalPrice)
+                </dd>
+                <dt class="col-sm-2">
+                    Deposit Fee
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Transaction.Deposit)
+                </dd>
+                <dt class="col-sm-2">
+                    Insurance Fee
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Transaction.InsuranceFee)
+                </dd>
+                <dt class="col-sm-2">
+                    Mortgage
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.Transaction.MortgageFee or motorcycle worth at least @Model.Transaction.MortgageFee
+                </dd>
+            </dl>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Rent Car" class="btn btn-primary" />
             </div>
         </form>
     </div>
