@@ -2,6 +2,7 @@ using BusinessObjects.Models;
 using DAOs;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Interfaces;
+using System.Linq.Expressions;
 
 namespace Repositories.Repository;
 
@@ -39,5 +40,10 @@ public class CarRepository : ICarRepository
     public bool Remove(Car car)
     {
         return _carDAO.Delete(car);
+    }
+
+    public ICollection<Car> GetAllByProperty(Expression<Func<Car, bool>> condition)
+    {
+        return _carDAO.GetListByProperty(condition);
     }
 }
