@@ -112,34 +112,47 @@ public static class DBInitializer
         
         await context.SaveChangesAsync();
 
-        // if (!context.DrivingLicenses.Any())
-        // {
-        //     var drivingLicenses = new List<DrivingLicense>
-        //     {
-        //         new DrivingLicense
-        //         {
-        //             OwnerId = 1,
-        //             DrivingLicenseNumber = "123456789",
-        //             ExpiryDate = new DateTime(2026,1,1), 
-        //             IsDeleted = false 
-        //             
-        //         },
-        //         new DrivingLicense
-        //         {
-        //             OwnerId = 2,
-        //             DrivingLicenseNumber = "987654321",
-        //             ExpiryDate = new DateTime(2026,1,1),
-        //             IsDeleted = false
-        //         }
-        //     };
-        //
-        //     foreach (var drivingLicense in drivingLicenses)
-        //     {
-        //         await context.DrivingLicenses.AddAsync(drivingLicense);
-        //     }
-        // }
-
-        // await context.SaveChangesAsync();
+        if (!context.Cars.Any())
+            {
+                var cars = new List<Car>()
+                {
+                    new Car
+                    {
+                        CarBrandId = 1,
+                        CarTypeId = 1,
+                        CarOwnerId = 2,
+                        CarModel = "Toyota Vios",
+                        PlateNumber = "51A-12345",
+                        CarRegisterNumber = "012345",
+                        PricePerDay = 2000,
+                        IsElectric = false,
+                        IsMortgageRequired = true,
+                        DepositRatio = 15,
+                        IsDeleted = false
+                    },
+                    new Car
+                    {
+                        CarBrandId = 2,
+                        CarTypeId = 2,
+                        CarOwnerId = 2,
+                        CarModel = "Honda CRV",
+                        PlateNumber = "51A-54321",
+                        CarRegisterNumber = "123456",
+                        PricePerDay = 1500,
+                        IsElectric = false,
+                        IsMortgageRequired = false,
+                        DepositRatio = 20,
+                        IsDeleted = false
+                    }
+                };
+    
+                foreach (var car in cars)
+                {
+                    await context.Cars.AddAsync(car);
+                }
+            }
+        
+        await context.SaveChangesAsync();
     }
     
         
