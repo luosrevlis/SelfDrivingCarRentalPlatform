@@ -19,7 +19,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
         private readonly ICarRepository _carRepository;
 
         public CreateModel(ICarBrandRepository carBrandRepository,
-             ICarTypeRepository carTypeRepository, ICarRepository carRepository)
+            ICarTypeRepository carTypeRepository, ICarRepository carRepository)
         {
             _carBrandRepository = carBrandRepository;
             _carTypeRepository = carTypeRepository;
@@ -28,23 +28,22 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 
         public IActionResult OnGet()
         {
-        ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
-        ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
+            ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
+            ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
             return Page();
         }
 
-        [BindProperty]
-        public Car Car { get; set; } = default!;
-        
+        [BindProperty] public Car Car { get; set; } = default!;
+
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _carRepository.GetAll() == null || Car == null)
+            if (!ModelState.IsValid || _carRepository.GetAll() == null || Car == null)
             {
                 ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
                 ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
                 return Page();
             }
-          
+
             //check if the plate number already exists
             var listCar = _carRepository.GetAll().Any(c => c.PlateNumber == Car.PlateNumber);
             if (listCar)
@@ -54,7 +53,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
                 ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
                 return Page();
             }
-            
+
             //check if price per day is out of range
             if (Car.PricePerDay < 500 || Car.PricePerDay > 10000)
             {
@@ -63,7 +62,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
                 ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
                 return Page();
             }
-          
+
             var carOwnerId = int.Parse(User.FindFirst("Id").Value);
             Car.CarOwnerId = carOwnerId;
 
