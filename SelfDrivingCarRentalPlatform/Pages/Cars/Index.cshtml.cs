@@ -56,6 +56,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         public IActionResult OnGet()
         {
             CarList = _carRepository.GetAll().ToList();
+            StartTime = DateTime.Now.AddDays(1);
+            EndTime = DateTime.Now.AddDays(2);
             PreparePage();
             return Page();
         }

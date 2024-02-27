@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    string? userId = User.FindFirst("Id")?.Value;
 }
 
 <h1>Index</h1>
@@ -175,9 +176,18 @@
                     @Html.DisplayFor(modelItem => item.CarBrand.BrandName)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    @if (userId != null)
+                    {
+                        <a 
+                            asp-page="../Contracts/RentCar"
+                            asp-route-carid="@item.Id"
+                            asp-route-rentstartdate="@Model.StartTime"
+                            asp-route-rentenddate="@Model.EndTime"
+                            class="btn btn-primary"
+                        >
+                            Rent
+                        </a>
+                    }
                 </td>
             </tr>
         }
