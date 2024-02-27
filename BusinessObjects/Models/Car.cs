@@ -23,6 +23,9 @@ namespace BusinessObjects.Models
         [ForeignKey(nameof(Models.CarBrand))]
         public int CarBrandId { get; set; }
 
+        [MaxLength(100)]
+        public string? CarModel { get; set; }
+
         [Required, MinLength(8), MaxLength(12)]
         public string PlateNumber { get; set; } = null!;
 
