@@ -24,7 +24,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 
         public async Task OnGetAsync()
         {
-            var listCar = _repository.GetAll();
+            string? userId = User.FindFirst("Id")?.Value;
+            var listCar = _repository.GetAll().Where(c => c.CarOwnerId == Int32.Parse(userId));
             if (listCar != null)
             {
                 Car = listCar.ToList();
