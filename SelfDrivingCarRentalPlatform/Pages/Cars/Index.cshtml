@@ -149,6 +149,9 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.CarModel)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.PlateNumber)
                 </td>
                 <td>
@@ -181,13 +184,12 @@
                 <td>
                     @if (userId != null)
                     {
-                        <a 
+                        <a
                             asp-page="../Contracts/RentCar"
                             asp-route-carid="@item.Id"
                             asp-route-rentstartdate="@Model.StartTime"
                             asp-route-rentenddate="@Model.EndTime"
-                            class="btn btn-primary"
-                        >
+                            class="btn btn-primary">
                             Rent
                         </a>
                     }
