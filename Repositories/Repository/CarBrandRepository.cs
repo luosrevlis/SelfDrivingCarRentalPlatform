@@ -12,9 +12,15 @@ public class CarBrandRepository : ICarBrandRepository
     {
         _carbrandDAO = carbrandDAO;
     }
+
     public IEnumerable<CarBrand> GetAll()
     {
         return _carbrandDAO.GetAll();
+    }
+
+    public CarBrand GetById(int id)
+    {
+        return _carbrandDAO.GetById(id);
     }
 
     public void Add(CarBrand carBrand)
