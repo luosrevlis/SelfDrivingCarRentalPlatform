@@ -1,25 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObjects.Models;
-using DAOs;
 using Repositories.Interfaces;
+using SelfDrivingCarRentalPlatform.Attributes;
+using BusinessObjects.Enums;
 
 namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 {
+    [AuthorizeRole(UserRole.CarOwner)]
     public class CreateModel : PageModel
     {
         private readonly ICarBrandRepository _carBrandRepository;
-        private readonly IUserRepository _userRepository;
         private readonly ICarTypeRepository _carTypeRepository;
         private readonly ICarRepository _carRepository;
 
-        public CreateModel(ICarBrandRepository carBrandRepository,
-            ICarTypeRepository carTypeRepository, ICarRepository carRepository)
+        public CreateModel(
+            ICarBrandRepository carBrandRepository,
+            ICarTypeRepository carTypeRepository,
+            ICarRepository carRepository)
         {
             _carBrandRepository = carBrandRepository;
             _carTypeRepository = carTypeRepository;
@@ -28,19 +27,18 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 
         public IActionResult OnGet()
         {
-            ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
-            ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
+            PreparePage();
             return Page();
         }
 
-        [BindProperty] public Car Car { get; set; } = default!;
+        [BindProperty] 
+        public Car Car { get; set; } = new();
 
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost()
         {
-            if (!ModelState.IsValid || _carRepository.GetAll() == null || Car == null)
+            if (!ModelState.IsValid)
             {
-                ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
-                ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
+                PreparePage();
                 return Page();
             }
 
@@ -49,8 +47,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             if (listCar)
             {
                 ModelState.AddModelError("Car.PlateNumber", "Plate number already exists");
-                ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
-                ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
+                PreparePage();
                 return Page();
             }
 
@@ -58,17 +55,21 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             if (Car.PricePerDay < 500 || Car.PricePerDay > 10000)
             {
                 ModelState.AddModelError("Car.PricePerDay", "Price per day must be between 500 and 10000");
-                ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
-                ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
+                PreparePage();
                 return Page();
             }
 
-            var carOwnerId = int.Parse(User.FindFirst("Id").Value);
-            Car.CarOwnerId = carOwnerId;
+            Car.CarOwnerId = int.Parse(User.FindFirst("Id")!.Value);
 
             _carRepository.Add(Car);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Index");
+        }
+
+        private void PreparePage()
+        {
+            ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
+            ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
         }
     }
 }
