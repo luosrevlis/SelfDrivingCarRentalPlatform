@@ -56,7 +56,9 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         public IActionResult OnGet()
         {
             string? userId = User.FindFirst("Id")?.Value;
-            List<Car> cars = _carRepository.GetAll().Where(c => c.CarOwnerId != Int32.Parse(userId)).ToList();
+            List<Car> cars = userId != null
+                ? _carRepository.GetAll().Where(c => c.CarOwnerId != int.Parse(userId)).ToList()
+                : _carRepository.GetAll().ToList();
             StartTime = DateTime.Now.AddDays(1);
             EndTime = DateTime.Now.AddDays(2);
             cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
@@ -91,10 +93,12 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
                 }
             }
 
-            //After checking duplicateed booking
-            List<Car> cars = _carRepository.GetAll().ToList();
+			//After checking duplicateed booking
+			List<Car> cars = userId != null
+				? _carRepository.GetAll().Where(c => c.CarOwnerId != int.Parse(userId)).ToList()
+				: _carRepository.GetAll().ToList();
 
-            cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
+			cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
             cars = GetCarsAfterFilterPrice(cars, MinPrice, MaxPrice);
             cars = GetCarsAfterFilterBrand(cars, BrandId);
             cars = GetCarsAfterFilterType(cars, TypeId);

@@ -1,44 +1,26 @@
 ﻿@using BusinessObjects.Enums;
-@if (User.Identity.IsAuthenticated){
-	@if (User.IsInRole(UserRole.Admin.ToString())){
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Index">Admin Home</a>
-                </li>
-            </ul>
-        </div>
-	}
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole(UserRole.Admin.ToString()))
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Admin/Index">Admin Home</a>
+        </li>
+    }
     @if (User.IsInRole(UserRole.CarOwner.ToString()))
     {
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/CarOwners/Cars/Index">Cars</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-page="/CarOwner/Profile/Details" asp-area="" asp-route-id="@User.FindFirst("Id").Value.ToString()">Profile</a>
-                </li>
-            </ul>
-        </div>
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/CarOwners/Cars/Index">Cars</a>
+        </li>
     }
     @if (User.IsInRole(UserRole.Customer.ToString()))
     {
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-            <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Customer/Index">Customer Home</a>
-                </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Customer/Index">Customer Home</a>
+        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-page="/Customer/ProfileDetails" asp-area="" asp-route-id="@User.FindFirst("Id").Value.ToString()">Profile</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-page="/Cars/Index">View Cars</a>
-                </li>
-            </ul>
-        </div>
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Cars/Index">View Cars</a>
+        </li>
     }
 }
