@@ -11,18 +11,27 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
     public class RentCarModel : PageModel
     {
         private readonly ICarRepository _carRepository;
+        private readonly ICarBrandRepository _carBrandRepository;
+        private readonly ICarTypeRepository _carTypeRepository;
         private readonly IContractRepository _contractRepository;
+        private readonly ILocationRepository _locationRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IUserRepository _userRepository;
 
         public RentCarModel(
             ICarRepository carRepository,
+            ICarBrandRepository carBrandRepository,
+            ICarTypeRepository carTypeRepository,
             IContractRepository contractRepository,
+            ILocationRepository locationRepository,
             ITransactionRepository transactionRepository,
             IUserRepository userRepository)
         {
             _carRepository = carRepository;
+            _carBrandRepository = carBrandRepository;
+            _carTypeRepository = carTypeRepository;
             _contractRepository = contractRepository;
+            _locationRepository = locationRepository;
             _transactionRepository = transactionRepository;
             _userRepository = userRepository;
         }
@@ -64,6 +73,10 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
         {
             Contract.CarId = carId;
             Contract.Car = _carRepository.GetById(carId);
+            Contract.Car.CarOwner = _userRepository.GetById(carId);
+            Contract.Car.CarOwner.Location = _locationRepository.GetById(Contract.Car.CarOwner.LocationId);
+            Contract.Car.CarBrand = _carBrandRepository.GetById(Contract.Car.CarBrandId);
+            Contract.Car.CarType = _carTypeRepository.GetById(Contract.Car.CarTypeId);
             Contract.RentStartDate = rentStartDate;
             Contract.RentEndDate = rentEndDate;
 

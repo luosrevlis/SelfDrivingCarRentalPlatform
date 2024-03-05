@@ -55,14 +55,6 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
 
         public IActionResult OnGet()
         {
-            string? userId = User.FindFirst("Id")?.Value;
-            List<Car> cars = userId != null
-                ? _carRepository.GetAll().Where(c => c.CarOwnerId != int.Parse(userId)).ToList()
-                : _carRepository.GetAll().ToList();
-            StartTime = DateTime.Now.AddDays(1);
-            EndTime = DateTime.Now.AddDays(2);
-            cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
-            CarList = cars;
             PreparePage();
             return Page();
         }

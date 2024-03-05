@@ -18,6 +18,11 @@ public class LocationRepository : ILocationRepository
         return _locationDAO.GetAll();
     }
 
+    public Location GetById(int id)
+    {
+        return _locationDAO.GetById(id);
+    }
+
     public void Add(Location location)
     {
         _locationDAO.Add(location);
