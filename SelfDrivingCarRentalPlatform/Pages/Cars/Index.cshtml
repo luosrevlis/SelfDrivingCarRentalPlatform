@@ -107,44 +107,50 @@
 </form>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].PlateNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].CarRegisterNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].PricePerDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].IsElectric)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].IsMortgageRequired)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].CarOwner)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].CarType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CarList[0].CarBrand)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].CarModel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].PlateNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].CarRegisterNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].PricePerDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].IsElectric)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].IsMortgageRequired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].IsDeleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].CarOwner)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].CarType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CarList[0].CarBrand)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.CarList)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CarModel)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PlateNumber)
                 </td>
@@ -178,13 +184,12 @@
                 <td>
                     @if (userId != null)
                     {
-                        <a 
+                        <a
                             asp-page="../Contracts/RentCar"
                             asp-route-carid="@item.Id"
                             asp-route-rentstartdate="@Model.StartTime"
                             asp-route-rentenddate="@Model.EndTime"
-                            class="btn btn-primary"
-                        >
+                            class="btn btn-primary">
                             Rent
                         </a>
                     }

@@ -7,21 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObjects.Models;
 using DAOs;
+using Repositories.Interfaces;
 
 namespace SelfDrivingCarRentalPlatform.Pages.Account
 {
     public class CreateModel : PageModel
     {
-        private readonly DAOs.SdcrpDbContext _context;
+        private readonly IUserRepository _userRepository;
+        private readonly ILocationRepository _locationRepository;
 
-        public CreateModel(DAOs.SdcrpDbContext context)
+        public CreateModel(IUserRepository userRepository, ILocationRepository locationRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
+            _locationRepository = locationRepository;
         }
 
         public IActionResult OnGet()
         {
-            ViewData["LocationId"] = new SelectList(_context.Locations, "Id", "LocationName");
+            ViewData["LocationId"] = new SelectList(_locationRepository.GetAll(), "Id", "LocationName");
             return Page();
         }
 
@@ -30,13 +33,12 @@ namespace SelfDrivingCarRentalPlatform.Pages.Account
         
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Users == null || User == null)
+          if (!ModelState.IsValid || User == null)
             {
                 return Page();
             }
 
-            _context.Users.Add(User);
-            await _context.SaveChangesAsync();
+            _userRepository.Add(User);
 
             return RedirectToPage("/Index");
         }

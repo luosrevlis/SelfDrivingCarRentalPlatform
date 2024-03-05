@@ -12,46 +12,52 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].PlateNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].CarRegisterNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].PricePerDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].IsElectric)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].IsMortgageRequired)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].DepositRatio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].CarOwner)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].CarType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Car[0].CarBrand)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].CarModel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].PlateNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].CarRegisterNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].PricePerDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].IsElectric)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].IsMortgageRequired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].DepositRatio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].IsDeleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].CarOwner)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].CarType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car[0].CarBrand)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.Car) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlateNumber)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PlateNumber)
             </td>
