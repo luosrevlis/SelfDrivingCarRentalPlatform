@@ -24,7 +24,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         }
 
         [BindProperty]
-        public IList<Car> CarList { get; set; } = default!;
+        public IList<Car> CarList { get; set; } = new List<Car>();
 
         [BindProperty]
         public DateTime StartTime { get; set; }
@@ -55,15 +55,23 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
 
         public IActionResult OnGet()
         {
+            StartTime = DateTime.Now;
+            EndTime = DateTime.Now.AddDays(1);
             PreparePage();
             return Page();
         }
 
         public IActionResult OnPost()
         {
+            if (StartTime > EndTime)
+            {
+                ErrorMsg = "Start date cannot be after end date!";
+                PreparePage();
+                return Page();
+            }
             if (MinPrice > MaxPrice)
             {
-                ErrorMsg = "Can not filter with min price > max price";
+                ErrorMsg = "Minimum price cannot be higher than maximum price!";
                 PreparePage();
                 return Page();
             }
@@ -78,7 +86,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
                 {
                     if (contract.RentStartDate <= EndTime && contract.RentEndDate >= StartTime)
                     {
-                        ErrorMsg = "Can not book when you have booked one car in this time";
+                        ErrorMsg = "You are currently renting a car in this time period. Please choose another period!";
                         PreparePage();
                         return Page();
                     }
