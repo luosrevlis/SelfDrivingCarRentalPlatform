@@ -24,7 +24,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         }
 
         [BindProperty]
-        public IList<Car> CarList { get; set; } = default!;
+        public IList<Car> CarList { get; set; } = new List<Car>();
 
         [BindProperty]
         public DateTime StartTime { get; set; }
@@ -55,6 +55,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
 
         public IActionResult OnGet()
         {
+            StartTime = DateTime.Now;
+            EndTime = DateTime.Now.AddDays(1);
             PreparePage();
             return Page();
         }

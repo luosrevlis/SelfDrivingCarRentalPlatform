@@ -7,74 +7,76 @@
 }
 
 <div class="untree_co-section">
-	<div class="container">
-		<div class="row">
+    <div class="container">
+        <div class="row">
             <!--Start Form-->
-			<div class="col-md-12 mb-5 mb-md-0">
-				<h2 class="h3 mb-3 text-black">Search Cars</h2>
-				<div class="p-3 p-lg-5 border bg-white">
-                    @if (Model.ErrorMsg != null)
-                    {
-                        <p class="text-danger">@Model.ErrorMsg</p>
-                    }
+            <form method="post">
+                <div class="col-md-12 mb-5 mb-md-0">
+                    <h2 class="h3 mb-3 text-black">Search Cars</h2>
+                    <div class="p-3 p-lg-5 border bg-white">
+                        @if (Model.ErrorMsg != null)
+                        {
+                            <p class="text-danger">@Model.ErrorMsg</p>
+                        }
 
-					<div class="form-group row">
-						<div class="col-md-6">
-							<label class="text-black" asp-for="StartTime">Start Time<span class="text-danger">*</span></label>
-							<input class="form-control" type="datetime-local" asp-for="StartTime" name="startTime" asp-format="{0:yyyy-MM-ddTHH:mm}">
-						</div>
-						<div class="col-md-6">
-							<label class="text-black" asp-for="EndTime">End Time<span class="text-danger">*</span></label>
-							<input class="form-control" type="datetime-local" asp-for="EndTime" name="endTime" asp-format="{0:yyyy-MM-ddTHH:mm}">
-						</div>
-					</div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="StartTime">Start Time<span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" asp-for="StartTime" name="startTime">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="EndTime">End Time<span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" asp-for="EndTime" name="endTime">
+                            </div>
+                        </div>
 
-					<div class="form-group row">
-						<div class="col-md-6">
-							<label class="text-black" asp-for="MinPrice">Minimum Price</label>
-							<input class="form-control" type="number" id="MinPrice" name="MinPrice" asp-for="MinPrice" step="0.01" min="0">
-						</div>
-						<div class="col-md-6">
-							<label class="text-black" asp-for="MaxPrice">Maximum Price</label>
-							<input class="form-control" type="number" id="MaxPrice" name="MaxPrice" asp-for="MaxPrice" step="0.01" min="0">
-						</div>
-					</div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="MinPrice">Minimum Price</label>
+                                <input class="form-control" type="number" id="MinPrice" name="MinPrice" asp-for="MinPrice" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="MaxPrice">Maximum Price</label>
+                                <input class="form-control" type="number" id="MaxPrice" name="MaxPrice" asp-for="MaxPrice" step="0.01" min="0">
+                            </div>
+                        </div>
 
-					<div class="form-group">
-						<label class="text-black" asp-for="BrandId" class="control-label">Car Brand</label>
-						<select class="form-control" asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId">
-							<option value="0">All Brands</option>
-						</select>
-					</div>
+                        <div class="form-group">
+                            <label class="text-black" asp-for="BrandId" class="control-label">Car Brand</label>
+                            <select class="form-control" asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId">
+                                <option value="0">All Brands</option>
+                            </select>
+                        </div>
 
-					<div class="form-group">
-						<label class="text-black" asp-for="TypeId" class="control-label">Car Type</label>
-						<select class="form-control" asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId">
-							<option value="0">All Types</option>
-						</select>
-					</div>
+                        <div class="form-group">
+                            <label class="text-black" asp-for="TypeId" class="control-label">Car Type</label>
+                            <select class="form-control" asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId">
+                                <option value="0">All Types</option>
+                            </select>
+                        </div>
 
-					<div>
-						<label class="text-black" asp-for="IsElectric">
-							<input type="checkbox" asp-for="IsElectric" /> Electric Cars Only
-						</label>
-					</div>
+                        <div>
+                            <label class="text-black" asp-for="IsElectric">
+                                <input type="checkbox" asp-for="IsElectric" /> Electric Cars Only
+                            </label>
+                        </div>
 
-					<div>
-						<label class="text-black" asp-for="NoMortgageRequired">
-							<input type="checkbox" asp-for="NoMortgageRequired" /> No Mortgage Required
-						</label>
-					</div>
+                        <div>
+                            <label class="text-black" asp-for="NoMortgageRequired">
+                                <input type="checkbox" asp-for="NoMortgageRequired" /> No Mortgage Required
+                            </label>
+                        </div>
 
-                    <div class="form-group">
-                        <button class="btn btn-black btn-lg py-3 btn-block" type="submit">Search</button>
+                        <div class="form-group">
+                            <button class="btn btn-black btn-lg py-3 btn-block" type="submit">Search</button>
+                        </div>
+
                     </div>
-
-				</div>
-			</div>
+                </div>
+            </form>
             <!--End Form-->
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 
 <div class="untree_co-section product-section before-footer-section">
@@ -86,7 +88,7 @@
                     <a class="product-item" asp-page="../Contracts/RentCar" asp-route-carid="@item.Id" asp-route-rentstartdate="@Model.StartTime" asp-route-rentenddate="@Model.EndTime">
                         <img src="~/images/car-white-transparent-background.png" class="img-fluid product-thumbnail">
                         <h3 class="product-title">@item.CarModel</h3>
-						<strong class="product-price">@item.PricePerDay₫/1d</strong>
+                        <strong class="product-price">@item.PricePerDay₫/1d</strong>
 
                         <span class="icon-cross text-white">
                             <i class="fa-solid fa-eye"></i>

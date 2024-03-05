@@ -73,7 +73,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
         {
             Contract.CarId = carId;
             Contract.Car = _carRepository.GetById(carId);
-            Contract.Car.CarOwner = _userRepository.GetById(carId);
+            Contract.Car.CarOwner = _userRepository.GetById(Contract.Car.CarOwnerId);
             Contract.Car.CarOwner.Location = _locationRepository.GetById(Contract.Car.CarOwner.LocationId);
             Contract.Car.CarBrand = _carBrandRepository.GetById(Contract.Car.CarBrandId);
             Contract.Car.CarType = _carTypeRepository.GetById(Contract.Car.CarTypeId);
