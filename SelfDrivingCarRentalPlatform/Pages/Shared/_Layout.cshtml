@@ -30,7 +30,7 @@
     <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="CarGo navigation bar">
 
         <div class="container">
-            <a class="navbar-brand" asp-page=".../Index">CarGo</a>
+            <a class="navbar-brand" href="@(Context.Request.Scheme + "://" + Context.Request.Host)">CarGo</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsCarGo" aria-controls="navbarsCarGo" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
