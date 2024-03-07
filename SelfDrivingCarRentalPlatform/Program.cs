@@ -1,4 +1,3 @@
-using System.Formats.Asn1;
 using DAOs;
 using DAOs.Data;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +13,7 @@ builder.Services.AddDbContext<SdcrpDbContext>(options =>
     options.UseSqlServer(builder => builder.MigrationsAssembly("SelfDrivingCarRentalPlatform"));
 }, ServiceLifetime.Singleton);
 builder.Services.InjectServices(); // add service for DI
-
+//builder.Services.AddSession();
 //add cookie authentication
 builder.Services.AddAuthentication("LoginCookieAuth")
 	.AddCookie("LoginCookieAuth", options =>
@@ -22,7 +21,6 @@ builder.Services.AddAuthentication("LoginCookieAuth")
 		options.Cookie.Name = "LoginCookieAuth";
 		options.LoginPath = "/Account/Login";
 	});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,13 +33,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+//app.UseSession();
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-var scope = app.Services.CreateScope();
+/*var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<SdcrpDbContext>();
 try
 {
@@ -51,7 +49,7 @@ try
 catch (Exception ex)
 {
 	Console.WriteLine(ex);
-}
+}*/
 
 app.MapRazorPages();
 
