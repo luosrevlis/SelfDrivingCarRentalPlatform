@@ -20,6 +20,6 @@ namespace BusinessObjects.Models
         [Required]
         public bool IsDeleted { get; set; }
 
-        public User Owner { get; set; } = null!;
+        public User? Owner { get; set; } = null!;
     }
 }
