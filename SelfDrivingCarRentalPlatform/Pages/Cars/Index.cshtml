@@ -85,7 +85,11 @@
             @foreach (var item in Model.CarList)
             {
                 <div class="col-12 col-md-4 col-lg-3 mb-5">
-                    <a class="product-item" asp-page="../Contracts/RentCar" asp-route-carid="@item.Id" asp-route-rentstartdate="@Model.StartTime" asp-route-rentenddate="@Model.EndTime">
+                    <a class="product-item" 
+                    asp-page="../Contracts/RentCar" 
+                    asp-route-carid="@item.Id" 
+                    asp-route-start="@Model.StartTime.ToString("yyyy-MM-dd")" 
+                    asp-route-end="@Model.EndTime.ToString("yyyy-MM-dd")">
                         <img src="~/images/car-white-transparent-background.png" class="img-fluid product-thumbnail">
                         <h3 class="product-title">@item.CarModel</h3>
                         <strong class="product-price">@item.PricePerDay₫ / day</strong>

@@ -15,7 +15,7 @@ public class ContractRepository : IContractRepository
         _contractDAO = contractDAO;
     }
     
-    public IEnumerable<Contract> GetAll()
+    public IQueryable<Contract> GetAll()
     {
         return _contractDAO.GetAll();
     }

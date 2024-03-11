@@ -13,7 +13,7 @@ public class LocationRepository : ILocationRepository
         _locationDAO = locationDAO;
     }
     
-    public IEnumerable<Location> GetAll()
+    public IQueryable<Location> GetAll()
     {
         return _locationDAO.GetAll();
     }

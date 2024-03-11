@@ -13,7 +13,7 @@ public class UserRepository : IUserRepository
         _userDAO = userDAO;
     }
     
-    public IEnumerable<User> GetAll()
+    public IQueryable<User> GetAll()
     {
         return _userDAO.GetAll();
     }

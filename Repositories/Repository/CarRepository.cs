@@ -14,7 +14,7 @@ public class CarRepository : ICarRepository
     {
         _carDAO = carDAO;
     }
-    public IEnumerable<Car> GetAll()
+    public IQueryable<Car> GetAll()
     {
         return _carDAO.GetAll()
             .Include(c => c.CarBrand)

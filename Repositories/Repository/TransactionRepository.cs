@@ -12,7 +12,7 @@ public class TransactionRepository : ITransactionRepository
     {
         _transactionDAO = transactionDao;
     }
-    public IEnumerable<Transaction> GetAll()
+    public IQueryable<Transaction> GetAll()
     {
         return _transactionDAO.GetAll();
     }
