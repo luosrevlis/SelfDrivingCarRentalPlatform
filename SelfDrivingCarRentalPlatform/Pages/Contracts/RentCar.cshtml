@@ -5,73 +5,125 @@
     ViewData["Title"] = "Rent Car";
 }
 
-<h1>RentCar</h1>
-
-<h4>Contract</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Contract.CarId" />
-            <input type="hidden" asp-for="Contract.RentStartDate" />
-            <input type="hidden" asp-for="Contract.RentEndDate" />
-            <dl class="row">
-                <dt class="col-sm-2">
-                    Car
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Contract.Car.CarModel)
-                    @Html.DisplayFor(model => model.Contract.Car.PlateNumber)
-                </dd>
-                <dt class="col-sm-2">
-                    Rent Start Date
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Contract.RentStartDate)
-                </dd>
-                <dt class="col-sm-2">
-                    Rent End Date
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Contract.RentEndDate)
-                </dd>
-                <dt class="col-sm-2">
-                    Rent Fee
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Transaction.TotalPrice)
-                </dd>
-                <dt class="col-sm-2">
-                    Deposit Fee
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Transaction.Deposit)
-                </dd>
-                <dt class="col-sm-2">
-                    Insurance Fee
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Transaction.InsuranceFee)
-                </dd>
-                <dt class="col-sm-2">
-                    Mortgage
-                </dt>
-                <dd class="col-sm-10">
-                    @Model.Transaction.MortgageFee or motorcycle worth at least @Model.Transaction.MortgageFee
-                </dd>
-            </dl>
-            <div class="form-group">
-                <input type="submit" value="Rent Car" class="btn btn-primary" />
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>@Model.Contract.Car.CarModel</h1>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-white"><i class="fa-solid fa-user"></i> Owner: @Model.Contract.Car.CarOwner?.Fullname</p>
+                            <p class="text-white">Car Type: @Model.Contract.Car.CarType?.TypeName</p>
+                            <p class="text-white">Plate Number: @Model.Contract.Car.PlateNumber</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-white"><i class="fa-solid fa-location-dot"></i> @Model.Contract.Car.CarOwner?.Location?.LocationName</p>
+                            <p class="text-white">Car Brand: @Model.Contract.Car.CarBrand?.BrandName</p>
+                            @if (Model.Contract.Car.IsElectric)
+                            {
+                                <p class="text-white"><i class="fa-solid fa-bolt"></i> Electric Car</p>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-        </form>
+            <div class="col-lg-7">
+                <div class="hero-img-wrap">
+                    <img src="~/images/car-white-transparent-background.png" class="img-fluid">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
+<div class="why-choose-section">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-7">
+                <h1 class="section-title">Terms of Service</h1>
+                <h3 class="section-title">Insurance</h3>
+                <p>The car is insuranced. Customers only have to pay up to 2000000₫ in unintended accidents. <a href="#">See more</a></p>
+                <h3 class="section-title">Deposit</h3>
+                <p>Customers have to deposit up to 30% of rent total for reserving. Deposit is returned upon returning the car.</p>
+                <h3 class="section-title">Mortgage</h3>
+                <p>If the owner requires, customers have to mortgage 15000000₫ or a motorcycle worth at least 15000000₫</p>
+                <h3 class="section-title">Other Notes</h3>
+                <p>- Use the car for the right purpose.</p>
+                <p>- Do not use the car for illegal purposes.</p>
+                <p>- Do not use the car to pledge or mortgage.</p>
+                <p>- Do not smoke, chew gum, or litter in the car.</p>
+                <p>- Do not carry prohibited goods that are flammable or explosive.</p>
+                <p>- Do not carry fruits or strong-smelling foods in the car.</p>
+                <p>- When returning the car, if the car is dirty or there is an odor in the car, please clean the car or pay an additional fee for cleaning the car.</p>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+                <h3 class="section-title">Refund Policy</h3>
+                <p>- If the rent is cancelled within the first hour after the initial request, you will be refunded 100% of the deposit.</p>
+                <p>- If the rent is cancelled 3 days before the rent start date, you will be refunded 50% of the deposit.</p>
+                <p>- If the rent is cancelled one day before the rent start date, you will not be refunded the deposit.</p>
+                <h5 class="section-title">Sincerely thank you, we wish you wonderful trips!</h5>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="p-3 p-lg-5 border bg-white">
+
+                            <table class="table site-block-order-table mb-5">
+                                <thead>
+                                    <tr>
+                                        <th>Rent Start Time</th>
+                                        <th>Rent End Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@Model.Contract.RentStartDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@Model.Contract.RentEndDate.ToString("yyyy-MM-dd")</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table site-block-order-table mb-5">
+                                <thead>
+                                    <tr>
+                                        <th>Fee</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Total Rent Fee</td>
+                                        <td>@Model.Transaction.TotalPrice₫</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Insurance Fee</td>
+                                        <td>@Model.Transaction.InsuranceFee₫</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deposit Fee</td>
+                                        <td>@Model.Transaction.Deposit₫</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mortgage</td>
+                                        <td>@Model.Transaction.MortgageFee₫</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <form method="post">
+                                <input type="hidden" asp-for="Contract.CarId" />
+                                <input type="hidden" asp-for="Contract.RentStartDate" />
+                                <input type="hidden" asp-for="Contract.RentEndDate" />
+                                <div class="form-group">
+                                    <button class="btn btn-black btn-lg py-3 btn-block">Rent Car</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

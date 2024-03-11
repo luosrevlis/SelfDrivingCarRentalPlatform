@@ -34,6 +34,7 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CarModel")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -146,6 +147,9 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ContractStatus")
+                        .HasColumnType("int");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -223,6 +227,9 @@ namespace SelfDrivingCarRentalPlatform.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("CancelDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<double?>("DamageFee")
                         .HasColumnType("float");
@@ -404,8 +411,7 @@ namespace SelfDrivingCarRentalPlatform.Migrations
 
             modelBuilder.Entity("BusinessObjects.Models.DrivingLicense", b =>
                 {
-                    b.Navigation("Owner")
-                        .IsRequired();
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("BusinessObjects.Models.Location", b =>
