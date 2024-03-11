@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using BusinessObjects.Models;
-using DAOs;
 using Repositories.Interfaces;
+using SelfDrivingCarRentalPlatform.Attributes;
+using BusinessObjects.Enums;
 
 namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 {
+    [AuthorizeRole(UserRole.CarOwner)]
     public class IndexModel : PageModel
     {
         private readonly ICarRepository _repository;
@@ -20,15 +16,14 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             _repository = repository;
         }
 
-        public IList<Car> Car { get;set; } = default!;
+        public IList<Car> CarList { get;set; } = new List<Car>();
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
             string? userId = User.FindFirst("Id")?.Value;
-            var listCar = _repository.GetAll().Where(c => c.CarOwnerId == Int32.Parse(userId));
-            if (listCar != null)
+            if (userId != null)
             {
-                Car = listCar.ToList();
+                CarList = _repository.GetAll().Where(c => c.CarOwnerId == int.Parse(userId)).ToList();
             }
         }
     }

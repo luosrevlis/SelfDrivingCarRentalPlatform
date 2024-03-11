@@ -1,44 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using BusinessObjects.Models;
-using DAOs;
 using Repositories.Interfaces;
+using SelfDrivingCarRentalPlatform.Attributes;
+using BusinessObjects.Enums;
 
 namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 {
+    [AuthorizeRole(UserRole.CarOwner)]
     public class DetailsModel : PageModel
     {
-        private readonly ICarRepository _repository;
+        private readonly ICarRepository _carRepository;
+        private readonly ICarBrandRepository _carBrandRepository;
+        private readonly ICarTypeRepository _carTypeRepository;
 
-        public DetailsModel(ICarRepository repository)
+        public DetailsModel(
+            ICarRepository repository,
+            ICarBrandRepository carBrandRepository,
+            ICarTypeRepository carTypeRepository)
         {
-            _repository = repository;
+            _carRepository = repository;
+            _carBrandRepository = carBrandRepository;
+            _carTypeRepository = carTypeRepository;
         }
 
-      public Car Car { get; set; } = default!; 
+        public Car Car { get; set; } = new();
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
-            var listCar = _repository.GetAll();
-            if (id == null || listCar == null)
+            Car = _carRepository.GetById(id ?? -1);
+            if (Car == null)
             {
                 return NotFound();
             }
-
-            var car = _repository.GetById(id.Value);
-            if (car == null)
-            {
-                return NotFound();
-            }
-            else 
-            {
-                Car = car;
-            }
+            Car.CarBrand = _carBrandRepository.GetById(Car.CarBrandId);
+            Car.CarType = _carTypeRepository.GetById(Car.CarTypeId);
             return Page();
         }
     }

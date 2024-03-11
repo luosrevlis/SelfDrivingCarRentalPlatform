@@ -1,0 +1,74 @@
+﻿@page
+@model SelfDrivingCarRentalPlatform.Pages.DrivingLicenses.CreateModel
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+
+@*<h4>DrivingLicense</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="DrivingLicense.DrivingLicenseNumber" class="control-label"></label>
+				<input asp-for="DrivingLicense.DrivingLicenseNumber" class="form-control" />
+				<span asp-validation-for="DrivingLicense.DrivingLicenseNumber" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="DrivingLicense.ExpiryDate" class="control-label"></label>
+				<input asp-for="DrivingLicense.ExpiryDate" class="form-control" />
+				<span asp-validation-for="DrivingLicense.ExpiryDate" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Create" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>*@
+
+<div class="untree_co-section">
+	<div class="container">
+		<h1 style="padding: 25px">Driving License</h1>
+
+		<div class="block">
+			<div class="row justify-content-center">
+
+
+				<div class="col-md-8 col-lg-8 pb-4">
+
+					<form method="post">
+						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+						<div class="form-group">
+							<label class="text-black">Driving License Number</label>
+							<input asp-for="DrivingLicense.DrivingLicenseNumber" class="form-control" />
+							<span asp-validation-for="DrivingLicense.DrivingLicenseNumber" class="text-danger"></span>
+						</div>
+
+						<div class="form-group" style="padding-bottom:20px">
+							<label class="text-black">Expiry Date</label>
+							<input asp-for="DrivingLicense.ExpiryDate" class="form-control" />
+							<span asp-validation-for="DrivingLicense.ExpiryDate" class="text-danger"></span>
+						</div>
+
+						<button type="submit" class="btn btn-primary-hover-outline">Create</button>
+					</form>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+	@section Scripts {
+		@{
+			await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		}
+	}

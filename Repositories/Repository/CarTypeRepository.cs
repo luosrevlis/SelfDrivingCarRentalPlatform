@@ -18,6 +18,11 @@ public class CarTypeRepository : ICarTypeRepository
         return _carTypeDAO.GetAll();
     }
 
+    public CarType GetById(int id)
+    {
+        return _carTypeDAO.GetById(id);
+    }
+
     public void Add(CarType carType)
     {
         _carTypeDAO.Add(carType);

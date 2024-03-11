@@ -34,14 +34,16 @@
 
   <ItemGroup>
     <AdditionalFiles Include="Pages\CarOwners\Cars\Create.cshtml" />
-    <AdditionalFiles Include="Pages\CarOwners\Cars\Delete.cshtml" />
     <AdditionalFiles Include="Pages\CarOwners\Cars\Details.cshtml" />
-    <AdditionalFiles Include="Pages\CarOwners\Cars\Edit.cshtml" />
     <AdditionalFiles Include="Pages\CarOwners\Cars\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Pages\CarOwners\Cars\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\scss\style.scss" />
   </ItemGroup>
 
 </Project>
