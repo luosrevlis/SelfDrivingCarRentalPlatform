@@ -38,6 +38,10 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
 
         public IActionResult OnGet(int carId, DateTime rentStartDate, DateTime rentEndDate)
         {
+            if (!CheckCar(carId, rentStartDate, rentEndDate))
+            {
+                return BadRequest();
+            }
             Contract.Customer = _userRepository.GetById(int.Parse(User.FindFirst("Id")!.Value));
             if (Contract.Customer.DrivingLicenseId == null)
             {
@@ -86,6 +90,36 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             Transaction.MortgageFee = Contract.Car.IsMortgageRequired ? 15000000 : 0;
             Transaction.InsuranceFee = 90000;
             Transaction.Contract = Contract;
+        }
+
+        private bool CheckCar(int carId, DateTime rentStartDate, DateTime rentEndDate)
+        {
+            // Date validation
+            if (rentStartDate < DateTime.Now || rentStartDate > DateTime.Now.AddMonths(3))
+            {
+                return false;
+            }
+            if (rentEndDate < DateTime.Now || rentEndDate > DateTime.Now.AddMonths(3))
+            {
+                return false;
+            }
+            if (rentStartDate > rentEndDate)
+            {
+                return false;
+            }
+            // Car validation
+            Car car = _carRepository.GetById(carId);
+            if (car == null || car.IsDeleted)
+            {
+                return false;
+            }
+            // Check overlaps
+            var overlappedContracts = _contractRepository
+                .GetAllByProperty(contract => contract.CarId == carId
+                && contract.RentStartDate <= rentEndDate
+                && rentStartDate <= contract.RentEndDate);
+
+            return !overlappedContracts.Any();
         }
     }
 }
