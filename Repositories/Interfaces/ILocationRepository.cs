@@ -4,7 +4,7 @@ namespace Repositories.Interfaces;
 
 public interface ILocationRepository
 {
-    IEnumerable<Location> GetAll();
+    IQueryable<Location> GetAll();
     Location GetById(int id);
     void Add(Location location);
     void Update(Location location);

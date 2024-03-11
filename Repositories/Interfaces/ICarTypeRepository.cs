@@ -4,7 +4,7 @@ namespace Repositories.Interfaces;
 
 public interface ICarTypeRepository
 {
-    IEnumerable<CarType> GetAll();
+    IQueryable<CarType> GetAll();
     CarType GetById(int id);
     void Add(CarType carType);
     void Update(CarType carType);
