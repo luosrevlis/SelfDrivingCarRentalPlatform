@@ -39,4 +39,5 @@ public class ContractRepository : IContractRepository
     {
          return _contractDAO.GetListByProperty(condition);
     }
+
 }

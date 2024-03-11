@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BusinessObjects.Enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -32,6 +33,9 @@ namespace BusinessObjects.Models
         public User Customer { get; set; } = null!;
 
         public Car Car { get; set; } = null!;
+
+        [Required]
+        public ContractStatus ContractStatus { get; set; }
 
         public Transaction Transaction { get; set; } = null!;
     }
