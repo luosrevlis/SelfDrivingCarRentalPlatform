@@ -6,199 +6,96 @@
     string? userId = User.FindFirst("Id")?.Value;
 }
 
-<h1>Index</h1>
+<div class="untree_co-section">
+    <div class="container">
+        <div class="row">
+            <!--Start Form-->
+            <form method="post">
+                <div class="col-md-12 mb-5 mb-md-0">
+                    <h2 class="h3 mb-3 text-black">Search Cars</h2>
+                    <div class="p-3 p-lg-5 border bg-white">
+                        @if (Model.ErrorMsg != null)
+                        {
+                            <p class="text-danger">@Model.ErrorMsg</p>
+                        }
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<head>
-    <style>
-        /* Style for form container */
-        .form-container {
-            width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="StartTime">Start Time<span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" asp-for="StartTime" name="startTime">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="EndTime">End Time<span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" asp-for="EndTime" name="endTime">
+                            </div>
+                        </div>
 
-        /* Style for form labels */
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="MinPrice">Minimum Price</label>
+                                <input class="form-control" type="number" id="MinPrice" name="MinPrice" asp-for="MinPrice" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-black" asp-for="MaxPrice">Maximum Price</label>
+                                <input class="form-control" type="number" id="MaxPrice" name="MaxPrice" asp-for="MaxPrice" step="0.01" min="0">
+                            </div>
+                        </div>
 
-        /* Style for form inputs */
-        input[type="datetime-local"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
+                        <div class="form-group">
+                            <label class="text-black" asp-for="BrandId" class="control-label">Car Brand</label>
+                            <select class="form-control" asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId">
+                                <option value="0">All Brands</option>
+                            </select>
+                        </div>
 
-        /* Style for checkbox container */
-        .checkbox-container {
-            margin-bottom: 10px;
-        }
+                        <div class="form-group">
+                            <label class="text-black" asp-for="TypeId" class="control-label">Car Type</label>
+                            <select class="form-control" asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId">
+                                <option value="0">All Types</option>
+                            </select>
+                        </div>
 
-        /* Style for submit button */
-        button[type="submit"] {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
+                        <div>
+                            <label class="text-black" asp-for="IsElectric">
+                                <input type="checkbox" asp-for="IsElectric" /> Electric Cars Only
+                            </label>
+                        </div>
 
-            /* Style for submit button on hover */
-            button[type="submit"]:hover {
-                background-color: #45a049;
+                        <div>
+                            <label class="text-black" asp-for="NoMortgageRequired">
+                                <input type="checkbox" asp-for="NoMortgageRequired" /> No Mortgage Required
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-black btn-lg py-3 btn-block" type="submit">Search</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+            <!--End Form-->
+        </div>
+    </div>
+</div>
+
+<div class="untree_co-section product-section before-footer-section">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.CarList)
+            {
+                <div class="col-12 col-md-4 col-lg-3 mb-5">
+                    <a class="product-item" asp-page="../Contracts/RentCar" asp-route-carid="@item.Id" asp-route-rentstartdate="@Model.StartTime" asp-route-rentenddate="@Model.EndTime">
+                        <img src="~/images/car-white-transparent-background.png" class="img-fluid product-thumbnail">
+                        <h3 class="product-title">@item.CarModel</h3>
+                        <strong class="product-price">@item.PricePerDay₫ / day</strong>
+
+                        <span class="icon-cross text-white">
+                            <i class="fa-solid fa-eye"></i>
+                        </span>
+                    </a>
+                </div>
             }
-    </style>
-</head>
-<form method="post">
-    <div>
-        <label asp-for="StartTime">Start Time</label>
-        <input type="datetime-local" asp-for="StartTime" name="startTime" asp-format="{0:yyyy-MM-ddTHH:mm}">
+        </div>
     </div>
-
-    <div>
-        <label asp-for="EndTime">End Time</label>
-        <input type="datetime-local" asp-for="EndTime" name="endTime" asp-format="{0:yyyy-MM-ddTHH:mm}">
-    </div>
-    <div>
-        <label asp-for="MinPrice">Minimum Price</label>
-        <input type="number" id="MinPrice" name="MinPrice" asp-for="MinPrice" step="0.01" min="0">
-    </div>
-
-    <div>
-        <label asp-for="MaxPrice">Maximum Price</label>
-        <input type="number" id="MaxPrice" name="MaxPrice" asp-for="MaxPrice" step="0.01" min="0">
-    </div>
-    <div class="form-group">
-        <label asp-for="BrandId" class="control-label">Brand</label>
-        <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId">
-            <option value="0">All Brands</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="TypeId" class="control-label">Car Type</label>
-        <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId">
-            <option value="0">All Types</option>
-        </select>
-    </div>
-    <div>
-        <input type="checkbox" asp-for="IsElectric" />
-        <label asp-for="IsElectric">Electric Cars Only</label>
-    </div>
-
-    <div>
-        <input type="checkbox" asp-for="NoMortgageRequired" />
-        <label asp-for="NoMortgageRequired">No Mortgage Required</label>
-    </div>
-    <button type="submit">Filter</button>
-</form>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].CarModel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].PlateNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].CarRegisterNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].PricePerDay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].IsElectric)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].IsMortgageRequired)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].IsDeleted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].CarOwner)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].CarType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CarList[0].CarBrand)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.CarList)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarModel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PlateNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarRegisterNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PricePerDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsElectric)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsMortgageRequired)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsDeleted)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarOwner.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarType.TypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CarBrand.BrandName)
-                </td>
-                <td>
-                    @if (userId != null)
-                    {
-                        <a
-                            asp-page="../Contracts/RentCar"
-                            asp-route-carid="@item.Id"
-                            asp-route-rentstartdate="@Model.StartTime"
-                            asp-route-rentenddate="@Model.EndTime"
-                            class="btn btn-primary">
-                            Rent
-                        </a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-@if (Model.ErrorMsg != null)
-{
-    <p class="text-danger">@Model.ErrorMsg</p>
-}
+</div>

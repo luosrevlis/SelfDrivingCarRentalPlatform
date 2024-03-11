@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObjects.Models;
-using DAOs;
 using Repositories.Interfaces;
 
 namespace SelfDrivingCarRentalPlatform.Pages.Account
@@ -29,18 +24,18 @@ namespace SelfDrivingCarRentalPlatform.Pages.Account
         }
 
         [BindProperty]
-        public User User { get; set; } = default!;
-        
-        public async Task<IActionResult> OnPostAsync()
+        public User NewUser { get; set; } = new();
+
+        public IActionResult OnPost()
         {
-          if (!ModelState.IsValid || User == null)
+            if (!ModelState.IsValid || NewUser == null)
             {
                 return Page();
             }
 
-            _userRepository.Add(User);
+            _userRepository.Add(NewUser);
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("../Index");
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using BusinessObjects.Enums;
+﻿using BusinessObjects.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -44,8 +43,10 @@ namespace BusinessObjects.Models
 
         [Required, Range(0, 30)]
         public int DepositRatio { get; set; }
+
         [Required]
         public CarStatus Status { get; set; } = CarStatus.Available;
+
         [Required]
         public bool IsDeleted { get; set; } 
 

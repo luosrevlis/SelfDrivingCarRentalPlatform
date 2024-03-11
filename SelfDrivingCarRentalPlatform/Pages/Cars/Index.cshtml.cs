@@ -24,7 +24,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         }
 
         [BindProperty]
-        public IList<Car> CarList { get; set; } = default!;
+        public IList<Car> CarList { get; set; } = new List<Car>();
 
         [BindProperty]
         public DateTime StartTime { get; set; }
@@ -55,19 +55,23 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
 
         public IActionResult OnGet()
         {
-            string? userId = User.FindFirst("Id")?.Value;
-            CarList = _carRepository.GetAll().Where(c => c.CarOwnerId != Int32.Parse(userId)).ToList();
-            StartTime = DateTime.Now.AddDays(1);
-            EndTime = DateTime.Now.AddDays(2);
+            StartTime = DateTime.Now;
+            EndTime = DateTime.Now.AddDays(1);
             PreparePage();
             return Page();
         }
 
         public IActionResult OnPost()
         {
+            if (StartTime > EndTime)
+            {
+                ErrorMsg = "Start date cannot be after end date!";
+                PreparePage();
+                return Page();
+            }
             if (MinPrice > MaxPrice)
             {
-                ErrorMsg = "Can not filter with min price > max price";
+                ErrorMsg = "Minimum price cannot be higher than maximum price!";
                 PreparePage();
                 return Page();
             }
@@ -82,17 +86,19 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
                 {
                     if (contract.RentStartDate <= EndTime && contract.RentEndDate >= StartTime)
                     {
-                        ErrorMsg = "Can not book when you have booked one car in this time";
+                        ErrorMsg = "You are currently renting a car in this time period. Please choose another period!";
                         PreparePage();
                         return Page();
                     }
                 }
             }
 
-            //After checking duplicateed booking
-            List<Car> cars = _carRepository.GetAll().ToList();
+			//After checking duplicateed booking
+			List<Car> cars = userId != null
+				? _carRepository.GetAll().Where(c => c.CarOwnerId != int.Parse(userId)).ToList()
+				: _carRepository.GetAll().ToList();
 
-            cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
+			cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
             cars = GetCarsAfterFilterPrice(cars, MinPrice, MaxPrice);
             cars = GetCarsAfterFilterBrand(cars, BrandId);
             cars = GetCarsAfterFilterType(cars, TypeId);
