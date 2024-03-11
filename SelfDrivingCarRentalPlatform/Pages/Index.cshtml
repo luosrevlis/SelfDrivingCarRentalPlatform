@@ -13,7 +13,10 @@
 					<p class="mb-4">Save up to 50%. 24/7 Service</p>
 					<p>
 						<a asp-page="/Cars/Index" class="btn btn-secondary me-2">Search Cars</a>
-						<a asp-page="/Account/Create" class="btn btn-white-outline">Register</a>
+						@if (User.Identity != null && !User.Identity.IsAuthenticated)
+						{
+							<a asp-page="/Account/Create" class="btn btn-white-outline">Register</a>
+						}
 					</p>
 				</div>
 			</div>
