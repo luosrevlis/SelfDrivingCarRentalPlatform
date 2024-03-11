@@ -36,8 +36,10 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             _userRepository = userRepository;
         }
 
-        public IActionResult OnGet(int carId, DateTime rentStartDate, DateTime rentEndDate)
+        public IActionResult OnGet(int carId, string start, string end)
         {
+            DateTime rentStartDate = DateTime.ParseExact(start, "yyyy-MM-dd", null);
+            DateTime rentEndDate = DateTime.ParseExact(end, "yyyy-MM-dd", null);
             if (!CheckCar(carId, rentStartDate, rentEndDate))
             {
                 return BadRequest();
