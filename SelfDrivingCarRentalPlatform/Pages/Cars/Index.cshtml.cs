@@ -37,6 +37,9 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         public DateTime EndTime{ get; set; }
 
         [BindProperty]
+        public bool IsAdvancedSearch { get; set; }
+
+        [BindProperty]
         public double? MinPrice { get; set; }
 
         [BindProperty]
@@ -103,11 +106,14 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
 				: _carRepository.GetAll().ToList();
 
 			cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
-            cars = GetCarsAfterFilterPrice(cars, MinPrice, MaxPrice);
-            cars = GetCarsAfterFilterBrand(cars, BrandId);
-            cars = GetCarsAfterFilterType(cars, TypeId);
-            cars = GetCarsAfterFilterElectric(cars, IsElectric);
-            cars = GetCarsAfterFilterMortage(cars, NoMortgageRequired);
+            if (IsAdvancedSearch)
+            {
+                cars = GetCarsAfterFilterPrice(cars, MinPrice, MaxPrice);
+                cars = GetCarsAfterFilterBrand(cars, BrandId);
+                cars = GetCarsAfterFilterType(cars, TypeId);
+                cars = GetCarsAfterFilterElectric(cars, IsElectric);
+                cars = GetCarsAfterFilterMortage(cars, NoMortgageRequired);
+            }
 
             CarList = cars;
             PreparePage();
