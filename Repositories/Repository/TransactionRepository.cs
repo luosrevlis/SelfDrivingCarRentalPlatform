@@ -35,8 +35,15 @@ public class TransactionRepository : ITransactionRepository
 
     public double GetLateReturnFee(int id)
     {
-        var transaction =  _transactionDAO.GetAll().Where(t => t.Id == id)
-            .Include(t => t.Contract).FirstOrDefault();
+        var transaction = _transactionDAO
+            .GetAll()
+            .Where(t => t.Id == id)
+            .Include(t => t.Contract)
+            .FirstOrDefault();
+        if (transaction == null)
+        {
+            return 0;
+        }
         var timeSinceRentCar = DateTime.Now - transaction.Contract.SignDate;
         var totalHourSinceRentCar = timeSinceRentCar.TotalHours;
         var deposit = transaction.Deposit;
@@ -48,16 +55,11 @@ public class TransactionRepository : ITransactionRepository
         }
 
         var timeUntilStartDate = transaction.Contract.RentStartDate - DateTime.Now;
-        if (timeUntilStartDate.TotalDays < 1)
-        {
-            return deposit;
-        }
-        if (timeUntilStartDate.TotalDays < 3)
+        if (timeUntilStartDate.TotalDays >= 1)
         {
             returnFee = Math.Ceiling(deposit * 50 / 100);
             return returnFee;
         }
-
-        return 0;
+        return deposit;
     }
 }

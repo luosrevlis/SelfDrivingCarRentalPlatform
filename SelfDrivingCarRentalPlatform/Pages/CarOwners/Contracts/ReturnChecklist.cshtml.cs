@@ -19,15 +19,15 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Contracts
             _contractRepository = contractRepository;
         }
 
-        public IActionResult OnGet(int contractId)
+        public IActionResult OnGet(int id)
         {
             int userId = int.Parse(User.FindFirst("Id")!.Value);
-            Contract? contract = _contractRepository.FindContractForCarReturn(contractId, userId);
+            Contract? contract = _contractRepository.FindContractForCarReturn(id, userId);
             if (contract == null)
             {
                 return BadRequest();
             }
-            Checklist.ContractId = contractId;
+            Checklist.ContractId = id;
             return Page();
         }
 
