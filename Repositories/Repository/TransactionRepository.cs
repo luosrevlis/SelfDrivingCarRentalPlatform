@@ -54,7 +54,7 @@ public class TransactionRepository : ITransactionRepository
         }
         if (timeUntilStartDate.TotalDays < 3)
         {
-            returnFee = Math.Ceiling((deposit * 50 / 100) / 10) * 10;
+            returnFee = Math.Ceiling(deposit * 50 / 100);
             return returnFee;
         }
 
