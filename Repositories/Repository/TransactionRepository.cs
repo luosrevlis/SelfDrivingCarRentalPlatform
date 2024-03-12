@@ -1,5 +1,6 @@
 using BusinessObjects.Models;
 using DAOs;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Interfaces;
 
 namespace Repositories.Repository;
@@ -30,5 +31,33 @@ public class TransactionRepository : ITransactionRepository
     public bool Remove(Transaction transaction)
     {
         return _transactionDAO.Delete(transaction);
+    }
+
+    public double GetLateReturnFee(int id)
+    {
+        var transaction =  _transactionDAO.GetAll().Where(t => t.Id == id)
+            .Include(t => t.Contract).FirstOrDefault();
+        var timeSinceRentCar = DateTime.Now - transaction.Contract.SignDate;
+        var totalHourSinceRentCar = timeSinceRentCar.TotalHours;
+        var deposit = transaction.Deposit;
+        double returnFee = 0;
+
+        if (totalHourSinceRentCar <= 1)
+        {
+            return 0;
+        }
+
+        var timeUntilStartDate = transaction.Contract.RentStartDate - DateTime.Now;
+        if (timeUntilStartDate.TotalDays < 1)
+        {
+            return deposit;
+        }
+        if (timeUntilStartDate.TotalDays < 3)
+        {
+            returnFee = Math.Ceiling(deposit * 50 / 100);
+            return returnFee;
+        }
+
+        return 0;
     }
 }

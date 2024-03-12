@@ -38,13 +38,15 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             var contract = _contractRepository.GetAll().Where(c => c.Id == id).FirstOrDefault();
             var transaction = _transactionRepository.GetAll().Where(c => c.Id == id).FirstOrDefault();
 
-            if (contract == null)
+            if (contract == null || transaction == null)
             {
                 return NotFound();
             }
             else 
             {
                 Contract = contract;
+                Transaction = transaction;
+                Transaction.LateReturnPenalty = _transactionRepository.GetLateReturnFee(Transaction.Id);
             }
             return Page();
         }
@@ -56,12 +58,15 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
                 return NotFound();
             }
             var contract = _contractRepository.GetAll().Where(c => c.Id == id).FirstOrDefault();
+            var transaction = _transactionRepository.GetAll().Where(c => c.Id == id).FirstOrDefault();
 
-            if (contract != null)
+            if (contract != null && transaction != null)
             {
                 contract.IsDeleted = true;
                 Contract = contract;
                 _contractRepository.Update(Contract);
+                transaction.LateReturnPenalty = _transactionRepository.GetLateReturnFee(transaction.Id);
+                _transactionRepository.Update(transaction);
             }
 
             return RedirectToPage("./Index");
