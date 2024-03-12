@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using BusinessObjects.Models;
-using DAOs;
+using SelfDrivingCarRentalPlatform.Attributes;
+using BusinessObjects.Enums;
+using Repositories.Interfaces;
 
 namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Contracts
 {
+    [AuthorizeRole(UserRole.CarOwner)]
     public class RentedListModel : PageModel
     {
-        private readonly DAOs.SdcrpDbContext _context;
+        private readonly IContractRepository _contractRepository;
 
-        public RentedListModel(DAOs.SdcrpDbContext context)
+        public RentedListModel(IContractRepository contractRepository)
         {
-            _context = context;
+            _contractRepository = contractRepository;
         }
 
-        public IList<Contract> Contract { get;set; } = default!;
+        public IList<Contract> RentedList { get; set; } = new List<Contract>();
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            if (_context.Contracts != null)
-            {
-                Contract = await _context.Contracts
-                .Include(c => c.Car)
-                .Include(c => c.Customer).ToListAsync();
-            }
+            int userId = int.Parse(User.FindFirst("Id")!.Value);
+            RentedList = _contractRepository.GetRentedHistory(userId);
         }
     }
 }

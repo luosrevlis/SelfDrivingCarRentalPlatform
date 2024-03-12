@@ -1,6 +1,6 @@
 ﻿@page
 @using SelfDrivingCarRentalPlatform.Constants;
-@model Contracts.CancelModel
+@model CarOwners.Contracts.OwnerCancelModel
 
 @{
     ViewData["Title"] = "Cancel";
@@ -27,7 +27,7 @@
                                 }
                             </div>
                         </div>
-                        
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <span class="text-black">Car</span>
@@ -58,7 +58,7 @@
                                 <form method="post">
                                     <input type="hidden" asp-for="Contract.Id" />
                                     <input class="btn btn-primary" type="submit" value="Cancel rent" />
-                                    <a class="btn btn-danger" asp-page="Index">Back to List</a>
+                                    <a class="btn btn-danger" asp-page="RentedList">Back to List</a>
                                 </form>
                             </div>
                         </div>

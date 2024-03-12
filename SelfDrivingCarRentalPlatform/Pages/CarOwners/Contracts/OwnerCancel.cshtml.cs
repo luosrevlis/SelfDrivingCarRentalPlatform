@@ -2,18 +2,16 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BusinessObjects.Models;
 using Repositories.Interfaces;
-using SelfDrivingCarRentalPlatform.Attributes;
-using BusinessObjects.Enums;
+using Microsoft.EntityFrameworkCore;
 
-namespace SelfDrivingCarRentalPlatform.Pages.Contracts
+namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Contracts
 {
-    [AuthorizeRole(UserRole.Customer, UserRole.CarOwner)]
-    public class CancelModel : PageModel
+    public class OwnerCancelModel : PageModel
     {
         private readonly IContractRepository _contractRepository;
         private readonly ITransactionRepository _transactionRepository;
 
-        public CancelModel(IContractRepository contractRepository, ITransactionRepository transactionRepository)
+        public OwnerCancelModel(IContractRepository contractRepository, ITransactionRepository transactionRepository)
         {
             _contractRepository = contractRepository;
             _transactionRepository = transactionRepository;
@@ -27,8 +25,9 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             int userId = int.Parse(User.FindFirst("Id")!.Value);
             var contract = _contractRepository
                 .GetAll()
+                .Include(contract => contract.Car)
                 .FirstOrDefault(contract => contract.Id == id && !contract.IsDeleted);
-            if (contract == null || contract.CustomerId != userId)
+            if (contract == null || contract.Car.CarOwnerId != userId)
             {
                 return NotFound();
             }
@@ -45,15 +44,16 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             int userId = int.Parse(User.FindFirst("Id")!.Value);
             var contract = _contractRepository
                 .GetAll()
+                .Include(contract => contract.Car)
                 .FirstOrDefault(contract => contract.Id == id && !contract.IsDeleted);
-            if (contract == null || contract.CustomerId != userId)
+            if (contract == null || contract.Car.CarOwnerId != userId)
             {
                 return NotFound();
             }
             contract.Transaction = _transactionRepository
                 .GetAll()
                 .FirstOrDefault(transaction => transaction.Id == contract.Id)!;
-            contract.Transaction.CancelRentPenalty = _transactionRepository.GetLateReturnFee(contract.Id);
+            contract.Transaction.CancelRentPenalty = -_transactionRepository.GetLateReturnFee(contract.Id);
             contract.IsDeleted = true;
             _contractRepository.Update(contract);
 

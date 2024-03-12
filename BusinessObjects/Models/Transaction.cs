@@ -27,6 +27,8 @@ public class Transaction
     
     public double? OtherFees { get; set; }
 
+    public double? CancelRentPenalty { get; set; }
+
     public DateTime? CancelDate { get; set; } = null;
 
     public Contract Contract { get; set; } = null!;
