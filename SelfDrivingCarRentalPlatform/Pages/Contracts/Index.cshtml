@@ -1,5 +1,5 @@
 ﻿@page
-@model SelfDrivingCarRentalPlatform.Pages.Contracts.IndexModel
+@model Contracts.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -23,16 +23,7 @@
                 @Html.DisplayNameFor(model => model.Contract[0].SignDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contract[0].IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].Customer)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Contract[0].Car)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].Transaction)
             </th>
             <th></th>
         </tr>
@@ -50,20 +41,9 @@
                 @Html.DisplayFor(modelItem => item.SignDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
+                @Html.DisplayFor(modelItem => item.Car.CarModel)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Car.CarRegisterNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Transaction.Id)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Cancel" asp-route-id="@item.Id">Cancel</a>
             </td>
         </tr>

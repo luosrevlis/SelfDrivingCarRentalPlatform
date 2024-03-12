@@ -1,9 +1,12 @@
 ﻿@page
+@using SelfDrivingCarRentalPlatform.Constants;
 @model Cars.IndexModel
 
 @{
     ViewData["Title"] = "Index";
     string? userId = User.FindFirst("Id")?.Value;
+    string lowerBound = DateTime.Now.AddDays(CommonConst.LBAdjust).ToString(CommonConst.DateFormatYmdHyphen);
+    string upperBound = DateTime.Now.AddDays(CommonConst.UBAdjust).ToString(CommonConst.DateFormatYmdHyphen);
 }
 
 <div class="untree_co-section">
@@ -19,52 +22,57 @@
                             <p class="text-danger">@Model.ErrorMsg</p>
                         }
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <div class="col-md-6">
-                                <label class="text-black" asp-for="StartTime">Start Time<span class="text-danger">*</span></label>
-                                <input class="form-control" type="date" asp-for="StartTime" name="startTime">
+                                <label class="text-black" asp-for="StartTime">Start Date<span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" asp-for="StartTime" name="startTime" min="@lowerBound" max="@upperBound" />
                             </div>
                             <div class="col-md-6">
-                                <label class="text-black" asp-for="EndTime">End Time<span class="text-danger">*</span></label>
-                                <input class="form-control" type="date" asp-for="EndTime" name="endTime">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label class="text-black" asp-for="MinPrice">Minimum Price</label>
-                                <input class="form-control" type="number" id="MinPrice" name="MinPrice" asp-for="MinPrice" step="0.01" min="0">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="text-black" asp-for="MaxPrice">Maximum Price</label>
-                                <input class="form-control" type="number" id="MaxPrice" name="MaxPrice" asp-for="MaxPrice" step="0.01" min="0">
+                                <label class="text-black" asp-for="EndTime">End Date<span class="text-danger">*</span></label>
+                                <input class="form-control" type="date" asp-for="EndTime" name="endTime" min="@lowerBound" max="@upperBound" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="text-black" asp-for="BrandId" class="control-label">Car Brand</label>
-                            <select class="form-control" asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId">
-                                <option value="0">All Brands</option>
-                            </select>
-                        </div>
+                        <div class="form-group mb-3">
+                            <label class="text-black" data-bs-toggle="collapse" href="#advanced_search" role="button" aria-expanded="false" aria-controls="advanced_search"><input type="checkbox"> Advanced Search</label>
+                            <div class="collapse" id="advanced_search">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label class="text-black" asp-for="MinPrice">Minimum Price Per Day</label>
+                                        <input class="form-control" type="number" id="MinPrice" name="MinPrice" asp-for="MinPrice" step="0.01" min="0" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="text-black" asp-for="MaxPrice">Maximum Price Per Day</label>
+                                        <input class="form-control" type="number" id="MaxPrice" name="MaxPrice" asp-for="MaxPrice" step="0.01" min="0" />
+                                    </div>
+                                </div>
 
-                        <div class="form-group">
-                            <label class="text-black" asp-for="TypeId" class="control-label">Car Type</label>
-                            <select class="form-control" asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId">
-                                <option value="0">All Types</option>
-                            </select>
-                        </div>
+                                <div class="form-group">
+                                    <label class="text-black" asp-for="BrandId" class="control-label">Car Brand</label>
+                                    <select class="form-control" asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId">
+                                        <option value="0">All Brands</option>
+                                    </select>
+                                </div>
 
-                        <div>
-                            <label class="text-black" asp-for="IsElectric">
-                                <input type="checkbox" asp-for="IsElectric" /> Electric Cars Only
-                            </label>
-                        </div>
+                                <div class="form-group">
+                                    <label class="text-black" asp-for="TypeId" class="control-label">Car Type</label>
+                                    <select class="form-control" asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId">
+                                        <option value="0">All Types</option>
+                                    </select>
+                                </div>
 
-                        <div>
-                            <label class="text-black" asp-for="NoMortgageRequired">
-                                <input type="checkbox" asp-for="NoMortgageRequired" /> No Mortgage Required
-                            </label>
+                                <div>
+                                    <label class="text-black" asp-for="IsElectric">
+                                        <input type="checkbox" asp-for="IsElectric" /> Electric Cars Only
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <label class="text-black" asp-for="NoMortgageRequired">
+                                        <input type="checkbox" asp-for="NoMortgageRequired" /> No Mortgage Required
+                                    </label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -87,9 +95,9 @@
                 <div class="col-12 col-md-4 col-lg-3 mb-5">
                     <a class="product-item" 
                     asp-page="../Contracts/RentCar" 
-                    asp-route-carid="@item.Id" 
-                    asp-route-start="@Model.StartTime.ToString("yyyy-MM-dd")" 
-                    asp-route-end="@Model.EndTime.ToString("yyyy-MM-dd")">
+                    asp-route-carid="@item.Id"
+                    asp-route-start="@Model.StartTime.ToString(CommonConst.DateFormatYmdHyphen)"
+                    asp-route-end="@Model.EndTime.ToString(CommonConst.DateFormatYmdHyphen)">
                         <img src="~/images/car-white-transparent-background.png" class="img-fluid product-thumbnail">
                         <h3 class="product-title">@item.CarModel</h3>
                         <strong class="product-price">@item.PricePerDay₫ / day</strong>
