@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using BusinessObjects.Models;
-using DAOs;
 using Repositories.Interfaces;
+using SelfDrivingCarRentalPlatform.Attributes;
+using BusinessObjects.Enums;
 
 namespace SelfDrivingCarRentalPlatform.Pages.DrivingLicenses
 {
+    [AuthorizeRole(UserRole.Customer, UserRole.CarOwner)]
 	public class CreateModel : PageModel
 	{
 		private readonly IDrivingLicenseRepository _drivingLicenseRepository;

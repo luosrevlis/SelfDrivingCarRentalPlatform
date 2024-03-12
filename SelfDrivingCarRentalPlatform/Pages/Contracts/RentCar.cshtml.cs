@@ -4,10 +4,11 @@ using BusinessObjects.Models;
 using Repositories.Interfaces;
 using BusinessObjects.Enums;
 using SelfDrivingCarRentalPlatform.Attributes;
+using SelfDrivingCarRentalPlatform.Constants;
 
 namespace SelfDrivingCarRentalPlatform.Pages.Contracts
 {
-    [AuthorizeRole(UserRole.Customer)]
+    [AuthorizeRole(UserRole.Customer, UserRole.CarOwner)]
     public class RentCarModel : PageModel
     {
         private readonly ICarRepository _carRepository;
@@ -38,8 +39,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
 
         public IActionResult OnGet(int carId, string start, string end)
         {
-            DateTime rentStartDate = DateTime.ParseExact(start, "yyyy-MM-dd", null);
-            DateTime rentEndDate = DateTime.ParseExact(end, "yyyy-MM-dd", null);
+            DateTime rentStartDate = DateTime.ParseExact(start, CommonConst.DateFormatYmdHyphen, null);
+            DateTime rentEndDate = DateTime.ParseExact(end, CommonConst.DateFormatYmdHyphen, null);
             if (!CheckCar(carId, rentStartDate, rentEndDate))
             {
                 return BadRequest();
@@ -47,7 +48,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             Contract.Customer = _userRepository.GetById(int.Parse(User.FindFirst("Id")!.Value));
             if (Contract.Customer.DrivingLicenseId == null)
             {
-                return BadRequest(); //redirect to driving license page
+                return RedirectToPage("../DrivingLicenses/Create");
             }
             InitContract(carId, rentStartDate, rentEndDate);
 
@@ -86,7 +87,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             Contract.RentStartDate = rentStartDate;
             Contract.RentEndDate = rentEndDate;
 
-            double rentTotal = (int)(rentEndDate - rentStartDate).TotalDays * Contract.Car.PricePerDay;
+            int rentDays = (int)(rentEndDate - rentStartDate).TotalDays + 1;
+            double rentTotal = rentDays * Contract.Car.PricePerDay;
             Transaction.TotalPrice = rentTotal;
             Transaction.Deposit = rentTotal * Contract.Car.DepositRatio / 100;
             Transaction.MortgageFee = Contract.Car.IsMortgageRequired ? 15000000 : 0;
@@ -97,15 +99,15 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
         private bool CheckCar(int carId, DateTime rentStartDate, DateTime rentEndDate)
         {
             // Date validation
-            if (rentStartDate < DateTime.Now || rentStartDate > DateTime.Now.AddMonths(3))
+            if (rentStartDate <= DateTime.Now || rentStartDate > DateTime.Now.AddDays(CommonConst.UBAdjust))
             {
                 return false;
             }
-            if (rentEndDate < DateTime.Now || rentEndDate > DateTime.Now.AddMonths(3))
+            if (rentEndDate <= DateTime.Now || rentEndDate > DateTime.Now.AddDays(CommonConst.UBAdjust))
             {
                 return false;
             }
-            if (rentStartDate > rentEndDate)
+            if (rentStartDate > rentEndDate || rentStartDate.AddDays(CommonConst.MaxRentPeriod) < rentEndDate)
             {
                 return false;
             }
