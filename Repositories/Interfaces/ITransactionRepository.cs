@@ -8,4 +8,5 @@ public interface ITransactionRepository
     void Add(Transaction transaction);
     void Update(Transaction transaction);
     bool Remove(Transaction transaction);
+    double GetLateReturnFee(int id);
 }

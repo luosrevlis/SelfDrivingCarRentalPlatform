@@ -24,6 +24,10 @@
         </li>
         
         <li class="nav-item">
+            <a class="nav-link" asp-page="/Contracts/Index">Renting History</a>
+        </li>
+        
+        <li class="nav-item">
             <a class="nav-link" asp-page="/DrivingLicenses/Details" asp-route-id="@int.Parse(User.FindFirst("Id").Value.ToString())">Add Driving License</a>
         </li>
     }
