@@ -1,0 +1,72 @@
+﻿@page
+@model SelfDrivingCarRentalPlatform.Pages.CarOwners.Contracts.RentedListModel
+
+@{
+    ViewData["Title"] = "RentedList";
+}
+
+<h1>RentedList</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract[0].RentStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract[0].RentEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract[0].SignDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract[0].IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract[0].Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract[0].Car)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contract[0].ContractStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Contract) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SignDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Car.CarModel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContractStatus)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

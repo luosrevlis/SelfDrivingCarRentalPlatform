@@ -10,4 +10,5 @@ public interface IContractRepository
     void Update(Contract contract);
     bool Remove(Contract contract);
     ICollection<Contract> GetAllByProperty(Expression<Func<Contract, bool>> condition);
+    Contract? FindContractForCarReturn(int id, int carOwnerId);
 }
