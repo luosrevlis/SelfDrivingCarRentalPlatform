@@ -66,7 +66,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             Contract.Customer = _userRepository.GetById(int.Parse(User.FindFirst("Id")!.Value));
             if (Contract.Customer.DrivingLicenseId == null)
             {
-                return BadRequest(); //redirect to driving license page
+                return RedirectToPage("../DrivingLicenses/Create");
             }
             InitContract(Contract.CarId, Contract.RentStartDate, Contract.RentEndDate);
             Contract.SignDate = DateTime.Now;
@@ -91,8 +91,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             double rentTotal = rentDays * Contract.Car.PricePerDay;
             Transaction.TotalPrice = rentTotal;
             Transaction.Deposit = rentTotal * Contract.Car.DepositRatio / 100;
-            Transaction.MortgageFee = Contract.Car.IsMortgageRequired ? 15000000 : 0;
-            Transaction.InsuranceFee = 90000;
+            Transaction.MortgageFee = Contract.Car.IsMortgageRequired ? CommonConst.MortgageFee : 0;
+            Transaction.InsuranceFee = CommonConst.InsuranceFee;
             Transaction.Contract = Contract;
         }
 
