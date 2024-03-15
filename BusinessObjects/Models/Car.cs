@@ -31,7 +31,7 @@ namespace BusinessObjects.Models
         [Required, MinLength(6), MaxLength(6)]
         public string CarRegisterNumber { get; set; } = null!;
 
-        [Required, Range(500, 10000)]
+        [Required, Range(500000, 10000000)]
         public double PricePerDay { get; set; }
 
         [Required]

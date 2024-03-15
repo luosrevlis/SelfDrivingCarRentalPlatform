@@ -10,17 +10,17 @@
     @if (User.IsInRole(UserRole.CarOwner.ToString()))
     {
         <li class="nav-item">
-            <a class="nav-link" asp-page="/CarOwners/Cars/Index">Cars</a>
-        </li>
-    }
-    @if (User.IsInRole(UserRole.Customer.ToString()))
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-page="/Customer/Index">Customer Home</a>
+            <a class="nav-link" asp-page="/CarOwners/Cars/Index">Your Cars</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" asp-page="/Cars/Index">View Cars</a>
+            <a class="nav-link" asp-page="CarOwners/Contracts/RentedList">Rented History</a>
+        </li>
+    }
+    @if (User.IsInRole(UserRole.Customer.ToString()) || User.IsInRole(UserRole.CarOwner.ToString()))
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-page="/Cars/Index">Search Cars</a>
         </li>
         
         <li class="nav-item">
@@ -28,7 +28,7 @@
         </li>
         
         <li class="nav-item">
-            <a class="nav-link" asp-page="/DrivingLicenses/Details" asp-route-id="@int.Parse(User.FindFirst("Id").Value.ToString())">Add Driving License</a>
+            <a class="nav-link" asp-page="/DrivingLicenses/Details">Driving License</a>
         </li>
     }
 }
