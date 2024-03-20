@@ -32,9 +32,11 @@
                     <dd class="col-sm-9"><input type="text" asp-for="UserModel.Fullname" class="form-control form-control-lg" /></dd>
                     <dt class="col-sm-3">Email</dt>
                     <dd class="col-sm-9"><input type="email" asp-for="UserModel.Email" class="form-control form-control-lg" /></dd>
+                    <span asp-validation-for="UserModel.Email" class="text-danger"></span>
                     <!-- Add other input fields as needed -->
                     <dt class="col-sm-3">Phone</dt>
                     <dd class="col-sm-9"><input type="text" asp-for="UserModel.Phone" class="form-control form-control-lg" /></dd>
+                    <span asp-validation-for="UserModel.Phone" class="text-danger"></span>
                     <dt class="col-sm-3">Address</dt>
                     <dd class="col-sm-9"><input type="text" asp-for="UserModel.Address" class="form-control form-control-lg" /></dd>
                     <!-- Add other input fields as needed -->

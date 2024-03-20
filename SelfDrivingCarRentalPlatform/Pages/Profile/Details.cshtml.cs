@@ -36,6 +36,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Profile
             {
                 UserModel = user;
                 ImageBase64 = user.ImagePath;
+
             }
 
             return Page();
@@ -45,7 +46,22 @@ namespace SelfDrivingCarRentalPlatform.Pages.Profile
         {
             int userId = int.Parse(User.FindFirst("Id")!.Value);
             var user = _userRepository.GetById(userId);
-            Console.WriteLine(Image);
+            if (UserModel.Email != null)
+            {
+                if (!Validation.CheckValidation(UserModel.Email, Validation._emailPattern))
+                {
+                    ModelState.AddModelError("UserModel.Email", "Invalid email format."); 
+                    return Page();
+                }
+            }
+            if (UserModel.Phone != null)
+            {
+                if (!Validation.CheckValidation(UserModel.Phone, Validation._phonePattern))
+                {
+                    ModelState.AddModelError("UserModel.Phone", "Invalid phone number format.");
+                    return Page();
+                }
+            }
             user.Fullname = UserModel.Fullname == null ? user.Fullname : UserModel.Fullname;
             user.Address =  UserModel.Address == null ? user.Address : UserModel.Address;
             user.Email = UserModel.Email == null ? user.Email : UserModel.Email;
