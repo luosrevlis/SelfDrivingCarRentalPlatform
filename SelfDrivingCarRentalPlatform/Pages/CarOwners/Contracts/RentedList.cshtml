@@ -45,6 +45,8 @@
                                         {
                                             <a class="btn btn-danger d-block mb-1" asp-page="OwnerCancel" asp-route-id="@item.Id">Cancel Rent</a>
                                         }
+                                        
+                                        <a class="btn btn-primary d-block mb-1" asp-page="RentDetail" asp-route-contractId="@item.Id">Detail</a>
                                     </td>
                                 </tr>
                             }

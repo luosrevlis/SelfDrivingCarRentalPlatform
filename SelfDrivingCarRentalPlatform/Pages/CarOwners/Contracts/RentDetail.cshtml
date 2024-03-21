@@ -1,0 +1,114 @@
+﻿@page
+@using BusinessObjects.Enums
+@model SelfDrivingCarRentalPlatform.Pages.CarOwners.Contracts.RentDetail
+
+<div class="hero">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-5">
+                <div class="intro-excerpt">
+                    <h1>@Model.Contract.Car.CarModel</h1>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-white"><i class="fa-solid fa-user"></i> Owner: @Model.Contract.Car.CarOwner?.Fullname</p>
+                            <p class="text-white">Car Type: @Model.Contract.Car.CarType?.TypeName</p>
+                            <p class="text-white">Plate Number: @Model.Contract.Car.PlateNumber</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-white"><i class="fa-solid fa-location-dot"></i> @Model.Contract.Car.CarOwner?.Location?.LocationName</p>
+                            <p class="text-white">Car Brand: @Model.Contract.Car.CarBrand?.BrandName</p>
+                            @if (Model.Contract.Car.IsElectric)
+                            {
+                                <p class="text-white"><i class="fa-solid fa-bolt"></i> Electric Car</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="hero-img-wrap">
+                    <img src="~/images/car-white-transparent-background.png" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Start Why Choose Us Section -->
+<div class="why-choose-section">
+	<div class="container">
+		<div class="row justify-content-between">
+			<div class="col-lg-6">
+				<h2 class="section-title">Contract Detail</h2>
+				<div class="feature">
+					<h3>Customer: @Model.Contract.Customer.Fullname</h3>
+				</div>
+
+				<div class="row my-5">
+					<div class="col-6 col-md-6">
+						<div class="feature">
+							<h3>Transaction</h3>
+							<p>Insurance: @Model.Contract.Transaction.InsuranceFee</p>
+							<p>Deposit:  @Model.Contract.Transaction.Deposit</p>
+							<p>Mortgage Fee:  @Model.Contract.Transaction.MortgageFee</p>
+							@if (Model.Contract.Transaction.DamageFee != null)
+							{
+								<p>Damage Fee:  Model.Contract.Transaction.DamageFee</p>
+							}
+							@if (Model.Contract.Transaction.LateReturnPenalty != null)
+							{
+								<p>Late Return:  Model.Contract.Transaction.LateReturnPenalty</p>
+							}
+							@if(Model.Contract.Transaction.OtherFees != null)
+							{
+								<p>OtherFees:  Model.Contract.Transaction.OtherFees</p>
+							}
+							<p>Total Price:  @Model.Contract.Transaction.TotalPrice</p>
+							@if(Model.Contract.Transaction.CancelDate != null)
+							{
+								<p>Cancel Date:  Model.Contract.Transaction.CancelDate</p>
+								<p>Cancel Rent Penalty:  Model.Contract.Transaction.CancelRentPenalty</p>
+							}
+							@if(Model.Contract.Transaction.CancelRentPenalty != null)
+							{
+								<p>Cancel Rent Penalty:  Model.Contract.Transaction.CancelRentPenalty</p>
+							}
+									
+									
+						</div>
+					</div>
+
+					<div class="col-6 col-md-6">
+						<div class="feature">
+							<h3>Date</h3>
+							<p>Start Date: @Model.Contract.RentStartDate</p>
+							<p>End Date: @Model.Contract.RentEndDate</p>
+							<p>Sign Date: @Model.Contract.SignDate</p>
+						</div>
+					</div>
+				</div>
+						
+			</div>
+
+			<div class="col-lg-5">
+				<div class="img-wrap">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="col-2" style="padding-left: 80px">
+	@if (Model.Contract.ContractStatus == ContractStatus.Received)
+		{
+			<a class="btn btn-primary d-block mb-1" asp-page="ReturnChecklist" asp-route-id="@Model.Contract.Id">Car Returned</a>
+		}
+	@if (Model.Contract.ContractStatus != ContractStatus.Returned)
+		{ 
+			<a class="btn btn-danger d-block mb-1" asp-page="OwnerCancel" asp-route-id="@Model.Contract.Id">Cancel Rent</a>
+		}
+</div>
+
+
