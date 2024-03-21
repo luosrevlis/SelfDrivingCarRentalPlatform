@@ -34,6 +34,7 @@ namespace BusinessObjects.Models
 
         [Required]
         public UserRole Role { get; set; }
+        public string ImagePath { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }
