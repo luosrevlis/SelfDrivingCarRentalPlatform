@@ -35,6 +35,9 @@ namespace DAOs
             modelBuilder.Entity<User>()
                 .Property(x => x.ImagePath)
                 .IsRequired(false);
+            modelBuilder.Entity<Car>()
+                .Property(x => x.ImageBase64)
+                .IsRequired(false);
         }
     }
 }

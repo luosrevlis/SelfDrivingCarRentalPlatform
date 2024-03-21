@@ -14,4 +14,5 @@ public interface IContractRepository
     Contract? FindContractForCarReceive(int id, int customerId);
     List<Contract> GetRentedHistory(int carOwnerId);
     List<Contract> GetRentingHistory(int customerId);
+    Contract GetById(int contractId);
 }

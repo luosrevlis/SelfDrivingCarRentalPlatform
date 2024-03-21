@@ -82,4 +82,11 @@ public class ContractRepository : IContractRepository
             .OrderByDescending(contract => contract.SignDate)
             .ToList();
     }
+
+    public Contract GetById(int contractId)
+    {
+        return  _contractDAO
+            .GetByIdWithInclude(entity => entity.Id == contractId,
+                e => e.Transaction).FirstOrDefault();
+    }
 }
