@@ -21,7 +21,7 @@
                                 <th>Status</th>
                                 <th></th>
                             </tr>
-                        </thead>
+                        </thead>  
                         <tbody>
                             @foreach (var item in Model.RentingList)
                             {
@@ -42,6 +42,7 @@
                                             <a class="btn btn-primary d-block mb-1" asp-page="CarReceived" asp-route-id="@item.Id">Car Received</a>
                                             <a class="btn btn-danger d-block mb-1" asp-page="Cancel" asp-route-id="@item.Id">Cancel Rent</a>
                                         }
+                                         <a class="btn btn-danger d-block mb-1" asp-page="Details" asp-route-id="@item.Id">Detail</a>
                                     </td>
                                 </tr>
                             }

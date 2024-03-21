@@ -55,4 +55,22 @@ public class GenericDAO<TEntity, TKey> where TEntity : class
     {
         return _dbSet.Where(predicate).ToList();
     }
+    public IQueryable<TEntity> GetByIdWithInclude(
+        Expression<Func<TEntity, bool>> filter = null,
+        params Expression<Func<TEntity, object>>[] includeProperties)
+    {
+        IQueryable<TEntity> query = _dbSet;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+
+        return query;
+    }
 }
