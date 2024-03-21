@@ -21,6 +21,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
 
         [BindProperty]
         public Contract Contract { get; set; } = new();
+        [BindProperty]
+        public string ErrorMsg { get; set; } 
 
         public IActionResult OnGet(int id)
         {
@@ -54,10 +56,25 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
                 .GetAll()
                 .FirstOrDefault(transaction => transaction.Id == contract.Id)!;
             contract.Transaction.CancelRentPenalty = _transactionRepository.GetLateReturnFee(contract.Id);
+            if (checkTimeForCancel(contract))
+            {
+                ModelState.AddModelError(string.Empty, "Can not cancel the reting that the StartTime < Today");
+                return OnGet(contract.Id);
+            }
             contract.IsDeleted = true;
             _contractRepository.Update(contract);
-
             return RedirectToPage("Index");
+        }
+
+        // true means the startTime has started
+        private bool checkTimeForCancel(Contract contract)
+        {
+            if (contract.RentStartDate <= DateTime.Now)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
