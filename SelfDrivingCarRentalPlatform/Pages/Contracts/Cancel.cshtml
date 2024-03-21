@@ -52,7 +52,19 @@
                                 <strong class="text-black">@Model.Contract.Transaction.TotalPrice</strong>
                             </div>
                         </div>
-
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                 @if (!ModelState.IsValid)
+                                     {
+                                         <div class="alert alert-danger">
+                                             @foreach (var error in ViewData.ModelState[string.Empty].Errors)
+                                             {
+                                                 <p>@error.ErrorMessage</p>
+                                             }
+                                         </div>
+                                     }
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <form method="post">
