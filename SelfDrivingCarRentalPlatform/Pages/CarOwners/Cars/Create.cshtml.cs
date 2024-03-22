@@ -40,6 +40,11 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
         
         public IActionResult OnPost()
         {
+            if (Image == null)
+            {
+                ModelState.AddModelError("Image", "You must upload an image for the car!");
+            }
+
             if (ModelState.IsValid)
             {
                 PreparePage();
