@@ -19,26 +19,19 @@ namespace SelfDrivingCarRentalPlatform.Pages.DrivingLicenses
 			_userRepository = userRepository;
 		}
 
-		public DrivingLicense DrivingLicense { get; set; } = default!;
+		public DrivingLicense DrivingLicense { get; set; } = new();
 
-		public async Task<IActionResult> OnGetAsync(int? id)
+		public IActionResult OnGet()
 		{
-			if (id == null || _drivingLicenseRepository.GetAll() == null)
-			{
-				return NotFound();
-			}
-
-			var drivinglicense = _drivingLicenseRepository.GetAll().FirstOrDefault(m => m.OwnerId == id);
+			int userId = int.Parse(User.FindFirst("Id")!.Value.ToString());
+            var drivinglicense = _drivingLicenseRepository.GetAll().FirstOrDefault(m => m.OwnerId == userId);
 			if (drivinglicense == null)
 			{
-				return RedirectToPage("./Create");
+				return RedirectToPage("Create");
 			}
-			else
-			{
-				drivinglicense.Owner = _userRepository.GetById(id ?? 0);
-				DrivingLicense = drivinglicense;
-			}
-			return Page();
+            drivinglicense.Owner = _userRepository.GetById(userId);
+            DrivingLicense = drivinglicense;
+            return Page();
 		}
 	}
 }

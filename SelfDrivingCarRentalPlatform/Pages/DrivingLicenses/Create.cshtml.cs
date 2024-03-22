@@ -25,12 +25,11 @@ namespace SelfDrivingCarRentalPlatform.Pages.DrivingLicenses
 		}
 
 		[BindProperty]
-		public DrivingLicense DrivingLicense { get; set; } = default!;
+		public DrivingLicense DrivingLicense { get; set; } = new();
 
-		// To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-		public async Task<IActionResult> OnPostAsync()
+		public IActionResult OnPost()
 		{
-			if (!ModelState.IsValid || _drivingLicenseRepository.GetAll() == null || DrivingLicense == null)
+			if (!ModelState.IsValid)
 			{
 				return Page();
 			}
@@ -38,14 +37,13 @@ namespace SelfDrivingCarRentalPlatform.Pages.DrivingLicenses
 			if (_drivingLicenseRepository.GetAll().Any(d => d.DrivingLicenseNumber.Equals(DrivingLicense.DrivingLicenseNumber)))
 			{
 				ModelState.AddModelError(string.Empty, "Duplicated Driving License Number. Please try again.");
-
 				return Page();
 			}
-			DrivingLicense.OwnerId = int.Parse(User.FindFirst("Id").Value.ToString());
+			DrivingLicense.OwnerId = int.Parse(User.FindFirst("Id")!.Value.ToString());
 			DrivingLicense.Owner = _userRepository.GetById(DrivingLicense.OwnerId);
 			_drivingLicenseRepository.Add(DrivingLicense);
 
-			return RedirectToPage("/Index");
+			return RedirectToPage("../Index");
 		}
 	}
 }
