@@ -57,7 +57,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Contracts
             contract.IsDeleted = true;
             _contractRepository.Update(contract);
 
-            return RedirectToPage("Index");
+            return RedirectToPage("./RentedList");
         }
     }
 }

@@ -157,7 +157,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         private List<Car> GetCarsAfterFilterTime(List<Car> cars, DateTime startTime, DateTime endTime)
         {
             var contractIds = _contractRepository
-                .GetAllByProperty(x => x.RentStartDate <= endTime && x.RentEndDate >= startTime)
+                .GetAllByProperty(x => x.RentStartDate <= endTime && x.RentEndDate >= startTime && !x.IsDeleted)
                 .Select(x => x.CarId)
                 .Distinct();
             cars.RemoveAll(car => contractIds.Contains(car.Id));

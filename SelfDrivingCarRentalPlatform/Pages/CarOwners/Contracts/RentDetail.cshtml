@@ -54,25 +54,25 @@
 							<p>Mortgage Fee:  @Model.Contract.Transaction.MortgageFee</p>
 							@if (Model.Contract.Transaction.DamageFee != null)
 							{
-								<p>Damage Fee:  Model.Contract.Transaction.DamageFee</p>
+								<p>Damage Fee:  @Model.Contract.Transaction.DamageFee</p>
 							}
 							@if (Model.Contract.Transaction.LateReturnPenalty != null)
 							{
-								<p>Late Return:  Model.Contract.Transaction.LateReturnPenalty</p>
+								<p>Late Return:  @Model.Contract.Transaction.LateReturnPenalty</p>
 							}
 							@if(Model.Contract.Transaction.OtherFees != null)
 							{
-								<p>OtherFees:  Model.Contract.Transaction.OtherFees</p>
+								<p>OtherFees:  @Model.Contract.Transaction.OtherFees</p>
 							}
 							<p>Total Price:  @Model.Contract.Transaction.TotalPrice</p>
 							@if(Model.Contract.Transaction.CancelDate != null)
 							{
-								<p>Cancel Date:  Model.Contract.Transaction.CancelDate</p>
-								<p>Cancel Rent Penalty:  Model.Contract.Transaction.CancelRentPenalty</p>
+								<p>Cancel Date:  @Model.Contract.Transaction.CancelDate</p>
+								<p>Cancel Rent Penalty:  @Model.Contract.Transaction.CancelRentPenalty</p>
 							}
 							@if(Model.Contract.Transaction.CancelRentPenalty != null)
 							{
-								<p>Cancel Rent Penalty:  Model.Contract.Transaction.CancelRentPenalty</p>
+								<p>Cancel Rent Penalty:  @Model.Contract.Transaction.CancelRentPenalty</p>
 							}
 									
 									
