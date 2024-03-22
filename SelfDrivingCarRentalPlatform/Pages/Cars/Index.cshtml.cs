@@ -103,7 +103,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
                 
                 // check if user have a driving license
                 User user = _userRepository.GetById(customerId);
-                if (user.DrivingLicense == null)
+                if (user.DrivingLicenseId == null)
                 {
                     ErrorMsg = "You need to upload your driving license before booking a car!";
                     PreparePage();
