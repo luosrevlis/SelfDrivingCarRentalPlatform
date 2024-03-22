@@ -1,0 +1,92 @@
+@page
+@model SelfDrivingCarRentalPlatform.Pages.Admin.Users.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].DrivingLicense)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Users) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @if (@item.IsDeleted)
+                {
+                    <div>Yes</div>
+                }
+                @if (!@item.IsDeleted)
+                {
+                    <div>No</div>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrivingLicense.DrivingLicenseNumber)
+            </td>
+            @if (!@item.IsDeleted)
+            {
+                <td>
+                    <a asp-page="./Delete" asp-route-id="@item.Id" style="text-decoration: none; color: red">Ban</a>
+                </td>
+            }
+            @if (@item.IsDeleted)
+            {
+                <td>
+                    <a asp-page="./Delete" asp-route-id="@item.Id" style="text-decoration: none; color: red">Unban</a>
+                </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

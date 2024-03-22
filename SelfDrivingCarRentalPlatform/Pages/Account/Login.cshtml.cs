@@ -32,7 +32,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Account
 
 			var user = _userRepository.GetAll().FirstOrDefault(user =>
 				user.Email.Equals(Credential.Email)
-				&& user.Password.Equals(Credential.Password));
+				&& user.Password.Equals(Credential.Password)
+				&& user.IsDeleted == false);
 
 			if (user != null)
 			{

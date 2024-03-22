@@ -2,3 +2,10 @@
 @model SelfDrivingCarRentalPlatform.Pages.Contracts.CarReceivedModel
 @{
 }
+ @if (!ModelState.IsValid)
+ {
+     <div class="alert alert-danger">
+         @foreach (var error in ViewData.ModelState[string.Empty].Errors)
+         {<p>@error.ErrorMessage</p>}
+     </div>
+ }

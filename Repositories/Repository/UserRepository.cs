@@ -37,4 +37,16 @@ public class UserRepository : IUserRepository
     {
         return _userDAO.Delete(user);
     }
+
+    public void Ban(User user)
+    {
+        user.IsDeleted = true;
+        _userDAO.Update(user);
+    }
+
+    public void Unban(User user)
+    {
+        user.IsDeleted = false;
+        _userDAO.Update(user);
+    }
 }
