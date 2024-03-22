@@ -1,22 +1,21 @@
+using BusinessObjects.Enums;
+using BusinessObjects.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using BusinessObjects.Models;
 using Repositories.Interfaces;
 using SelfDrivingCarRentalPlatform.Attributes;
-using BusinessObjects.Enums;
-using SelfDrivingCarRentalPlatform.Helper;
 
 namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 {
     [AuthorizeRole(UserRole.CarOwner)]
-    public class CreateModel : PageModel
+    public class EditModel : PageModel
     {
         private readonly ICarBrandRepository _carBrandRepository;
         private readonly ICarTypeRepository _carTypeRepository;
         private readonly ICarRepository _carRepository;
 
-        public CreateModel(
+        public EditModel(
             ICarBrandRepository carBrandRepository,
             ICarTypeRepository carTypeRepository,
             ICarRepository carRepository)
@@ -26,27 +25,31 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             _carRepository = carRepository;
         }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int id)
         {
+            int userId = int.Parse(User.FindFirst("Id")!.Value.ToString());
+            Car = _carRepository.GetById(id);
+            if (Car.CarOwnerId != userId)
+            {
+                return BadRequest();
+            }
             PreparePage();
             return Page();
         }
 
-        [BindProperty] 
-        public Car Car { get; set; } = new();
+        [BindProperty]
+        public Car Car { get; set; }
 
-        [BindProperty] public IFormFile Image { get; set; }
-        
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 PreparePage();
                 return Page();
             }
 
             //check if the plate number already exists
-            var listCar = _carRepository.GetAll().Any(c => c.PlateNumber == Car.PlateNumber);
+            var listCar = _carRepository.GetAll().Any(c => c.Id != Car.Id && c.PlateNumber == Car.PlateNumber);
             if (listCar)
             {
                 ModelState.AddModelError("Car.PlateNumber", "Plate number already exists");
@@ -64,12 +67,9 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 
             Car.CarOwnerId = int.Parse(User.FindFirst("Id")!.Value);
 
-            if ((Image != null))
-            {
-                Car.ImageBase64 = Base64Converter.ConvertToBase64(Image);
-            }
-            
-            _carRepository.Add(Car);
+            Car carInDb = _carRepository.GetById(Car.Id);
+            Update(Car, carInDb);
+            _carRepository.Update(carInDb);
 
             return RedirectToPage("Index");
         }
@@ -78,6 +78,20 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
         {
             ViewData["CarBrandId"] = new SelectList(_carBrandRepository.GetAll().ToList(), "Id", "BrandName");
             ViewData["CarTypeId"] = new SelectList(_carTypeRepository.GetAll(), "Id", "TypeName");
+        }
+
+        private void Update(Car source, Car target)
+        {
+            target.CarOwnerId = source.CarOwnerId;
+            target.CarBrandId = source.CarBrandId;
+            target.CarTypeId = source.CarTypeId;
+            target.CarModel = source.CarModel;
+            target.PlateNumber = source.PlateNumber;
+            target.CarRegisterNumber = source.CarRegisterNumber;
+            target.PricePerDay = source.PricePerDay;
+            target.IsElectric = source.IsElectric;
+            target.IsMortgageRequired = source.IsMortgageRequired;
+            target.PickupLocation = source.PickupLocation;
         }
     }
 }
