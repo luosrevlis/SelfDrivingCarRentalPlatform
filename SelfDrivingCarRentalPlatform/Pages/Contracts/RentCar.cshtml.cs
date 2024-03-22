@@ -121,7 +121,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             var overlappedContracts = _contractRepository
                 .GetAllByProperty(contract => contract.CarId == carId
                 && contract.RentStartDate <= rentEndDate
-                && rentStartDate <= contract.RentEndDate);
+                && rentStartDate <= contract.RentEndDate
+                && !contract.IsDeleted);
 
             return !overlappedContracts.Any();
         }
