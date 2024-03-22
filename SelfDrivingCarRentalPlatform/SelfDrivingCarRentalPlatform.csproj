@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Admin\Users" />
     <Folder Include="Pages\CarOwners\Cars\" />
     <Folder Include="Pages\Profile" />
   </ItemGroup>
