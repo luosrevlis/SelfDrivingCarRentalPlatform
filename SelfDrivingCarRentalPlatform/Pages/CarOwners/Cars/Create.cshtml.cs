@@ -36,15 +36,10 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
         public Car Car { get; set; } = new();
 
         [BindProperty]
-        public IFormFile? Image { get; set; }
+        public IFormFile Image { get; set; } = null!;
         
         public IActionResult OnPost()
         {
-            if (Image == null)
-            {
-                ModelState.AddModelError("Image", "You must upload an image for the car!");
-            }
-
             if (ModelState.IsValid)
             {
                 PreparePage();
@@ -64,6 +59,13 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             if (Car.PricePerDay < 500000 || Car.PricePerDay > 10000000)
             {
                 ModelState.AddModelError("Car.PricePerDay", "Price per day must be between 500000 and 10000000");
+                PreparePage();
+                return Page();
+            }
+
+            if (Image == null)
+            {
+                ModelState.AddModelError("Image", "You must upload an image for the car!");
                 PreparePage();
                 return Page();
             }

@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models
 {
-    [Index(nameof(CarId), nameof(RentStartDate), IsUnique = true)]
     public class Contract
     {
         public int Id { get; set; }
