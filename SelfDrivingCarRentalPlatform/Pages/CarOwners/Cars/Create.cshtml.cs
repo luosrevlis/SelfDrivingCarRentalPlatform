@@ -69,11 +69,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             }
 
             Car.CarOwnerId = int.Parse(User.FindFirst("Id")!.Value);
-
-            if (Image != null)
-            {
-                Car.ImageBase64 = Base64Converter.ConvertToBase64(Image);
-            }
+            Car.ImageBase64 = Base64Converter.ConvertToBase64(Image);
             
             _carRepository.Add(Car);
 
