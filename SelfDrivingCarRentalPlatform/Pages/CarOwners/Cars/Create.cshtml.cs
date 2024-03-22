@@ -36,7 +36,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
         public Car Car { get; set; } = new();
 
         [BindProperty]
-        public IFormFile? Image { get; set; }
+        public IFormFile Image { get; set; }
         
         public IActionResult OnPost()
         {
