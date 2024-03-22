@@ -1,92 +1,47 @@
 @page
-@model SelfDrivingCarRentalPlatform.Pages.Admin.Users.IndexModel
+@model Admin.Users.IndexModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="untree_co-section product-section before-footer-section">
+    <div class="container">
+        <div class="row">
+            <h1 class="mb-5">User List</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Driving License No.</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <td>@item.Fullname</td>
+                            <td>@item.Email</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Address</td>
+                            <td>@item.Role</td>
+                            <td>@(item.IsDeleted ? "Banned" : "Active")</td>
+                            <td>@item.DrivingLicense?.DrivingLicenseNumber</td>
+                            <td>
+                                <a asp-page="Delete" asp-route-id="@item.Id" style="text-decoration: none; color: red">@(item.IsDeleted ? "Unban" : "Ban")</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Fullname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Role)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].DrivingLicense)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Users) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
-                @if (@item.IsDeleted)
-                {
-                    <div>Yes</div>
-                }
-                @if (!@item.IsDeleted)
-                {
-                    <div>No</div>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DrivingLicense.DrivingLicenseNumber)
-            </td>
-            @if (!@item.IsDeleted)
-            {
-                <td>
-                    <a asp-page="./Delete" asp-route-id="@item.Id" style="text-decoration: none; color: red">Ban</a>
-                </td>
-            }
-            @if (@item.IsDeleted)
-            {
-                <td>
-                    <a asp-page="./Delete" asp-route-id="@item.Id" style="text-decoration: none; color: red">Unban</a>
-                </td>
-            }
-        </tr>
-}
-    </tbody>
-</table>
+
