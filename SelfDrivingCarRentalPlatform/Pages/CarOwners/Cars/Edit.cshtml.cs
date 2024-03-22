@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Repositories.Interfaces;
 using SelfDrivingCarRentalPlatform.Attributes;
+using SelfDrivingCarRentalPlatform.Helper;
 
 namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 {
@@ -40,6 +41,9 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
         [BindProperty]
         public Car Car { get; set; }
 
+        [BindProperty]
+        public IFormFile? Image { get; set; }
+
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
@@ -66,6 +70,10 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             }
 
             Car.CarOwnerId = int.Parse(User.FindFirst("Id")!.Value);
+            if (Image != null)
+            {
+                Car.ImageBase64 = Base64Converter.ConvertToBase64(Image);
+            }
 
             Car carInDb = _carRepository.GetById(Car.Id);
             Update(Car, carInDb);
@@ -92,6 +100,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
             target.IsElectric = source.IsElectric;
             target.IsMortgageRequired = source.IsMortgageRequired;
             target.PickupLocation = source.PickupLocation;
+            target.ImageBase64 = source.ImageBase64;
         }
     }
 }

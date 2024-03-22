@@ -1,8 +1,8 @@
 ﻿@page
-@model SelfDrivingCarRentalPlatform.Pages.DrivingLicenses.CreateModel
+@model DrivingLicenses.CreateModel
 
 @{
-	ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create";
 }
 
 
@@ -30,45 +30,43 @@
 </div>*@
 
 <div class="untree_co-section">
-	<div class="container">
-		<h1 style="padding: 25px">Driving License</h1>
+    <div class="container">
+        <h1 style="padding: 25px">Driving License</h1>
 
-		<div class="block">
-			<div class="row justify-content-center">
+        <div class="block">
+            <div class="row justify-content-center">
 
 
-				<div class="col-md-8 col-lg-8 pb-4">
+                <div class="col-md-8 col-lg-8 pb-4">
 
-					<form method="post">
-						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-						<div class="form-group">
-							<label class="text-black">Driving License Number</label>
-							<input asp-for="DrivingLicense.DrivingLicenseNumber" class="form-control" />
-							<span asp-validation-for="DrivingLicense.DrivingLicenseNumber" class="text-danger"></span>
-						</div>
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label class="text-black">Driving License Number</label>
+                            <input asp-for="DrivingLicense.DrivingLicenseNumber" class="form-control" />
+                            <span asp-validation-for="DrivingLicense.DrivingLicenseNumber" class="text-danger"></span>
+                        </div>
 
-						<div class="form-group" style="padding-bottom:20px">
-							<label class="text-black">Expiry Date</label>
-							<input asp-for="DrivingLicense.ExpiryDate" class="form-control" />
-							<span asp-validation-for="DrivingLicense.ExpiryDate" class="text-danger"></span>
-						</div>
+                        <div class="form-group" style="padding-bottom:20px">
+                            <label class="text-black">Expiry Date</label>
+                            <input asp-for="DrivingLicense.ExpiryDate" class="form-control" />
+                            <span asp-validation-for="DrivingLicense.ExpiryDate" class="text-danger"></span>
+                        </div>
 
-						<button type="submit" class="btn btn-primary-hover-outline">Create</button>
-					</form>
+                        <button type="submit" class="btn btn-primary-hover-outline">Create</button>
+                    </form>
 
-				</div>
+                </div>
 
-			</div>
+            </div>
 
-		</div>
+        </div>
 
-	</div>
+    </div>
 </div>
 
-
-
-	@section Scripts {
-		@{
-			await Html.RenderPartialAsync("_ValidationScriptsPartial");
-		}
-	}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

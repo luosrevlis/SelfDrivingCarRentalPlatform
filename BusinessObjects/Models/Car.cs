@@ -52,7 +52,7 @@ namespace BusinessObjects.Models
         [Required]
         public bool IsDeleted { get; set; } 
         
-        public string ImageBase64 { get; set; } 
+        public string? ImageBase64 { get; set; } 
 
         public User? CarOwner { get; set; } = null!;
 

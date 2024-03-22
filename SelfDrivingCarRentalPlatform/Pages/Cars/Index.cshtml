@@ -98,7 +98,7 @@
                     asp-route-carid="@item.Id"
                     asp-route-start="@Model.StartTime.ToString(CommonConst.DateFormatYmdHyphen)"
                     asp-route-end="@Model.EndTime.ToString(CommonConst.DateFormatYmdHyphen)">
-                        <img src="data:image;base64,@item.ImageBase64" class="img-fluid product-thumbnail">
+                        <img src="data:image;base64,@item.ImageBase64" class="img-fluid product-thumbnail" />
                         <h3 class="product-title">@item.CarModel</h3>
                         <strong class="product-price">@item.PricePerDay₫ / day</strong>
 

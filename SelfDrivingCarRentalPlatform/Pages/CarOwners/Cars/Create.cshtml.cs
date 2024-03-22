@@ -35,7 +35,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
         [BindProperty] 
         public Car Car { get; set; } = new();
 
-        [BindProperty] public IFormFile Image { get; set; }
+        [BindProperty]
+        public IFormFile? Image { get; set; }
         
         public IActionResult OnPost()
         {
@@ -64,7 +65,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.CarOwners.Cars
 
             Car.CarOwnerId = int.Parse(User.FindFirst("Id")!.Value);
 
-            if ((Image != null))
+            if (Image != null)
             {
                 Car.ImageBase64 = Base64Converter.ConvertToBase64(Image);
             }
