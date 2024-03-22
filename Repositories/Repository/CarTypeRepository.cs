@@ -13,7 +13,7 @@ public class CarTypeRepository : ICarTypeRepository
         _carTypeDAO = carTypeDao;
     }
     
-    public IEnumerable<CarType> GetAll()
+    public IQueryable<CarType> GetAll()
     {
         return _carTypeDAO.GetAll();
     }

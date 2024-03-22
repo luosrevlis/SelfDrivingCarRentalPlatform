@@ -22,9 +22,8 @@ namespace BusinessObjects.Models
         [ForeignKey(nameof(Models.CarBrand))]
         public int CarBrandId { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public string? CarModel { get; set; }
+        [Required, MaxLength(100)]
+        public string CarModel { get; set; } = null!;
 
         [Required, MinLength(8), MaxLength(12)]
         public string PlateNumber { get; set; } = null!;
@@ -44,11 +43,16 @@ namespace BusinessObjects.Models
         [Required, Range(0, 30)]
         public int DepositRatio { get; set; }
 
+        [Required, MaxLength(100)]
+        public string PickupLocation { get; set; } = null!;
+
         [Required]
         public CarStatus Status { get; set; } = CarStatus.Available;
 
         [Required]
         public bool IsDeleted { get; set; } 
+        
+        public string ImageBase64 { get; set; } 
 
         public User? CarOwner { get; set; } = null!;
 

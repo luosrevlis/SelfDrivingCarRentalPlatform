@@ -1,72 +1,55 @@
 ﻿@page
-@model SelfDrivingCarRentalPlatform.Pages.Contracts.IndexModel
+@using BusinessObjects.Enums;
+@model Contracts.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Renting History";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].RentStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].RentEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].SignDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].IsDeleted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].Car)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contract[0].Transaction)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Contract) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RentStartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RentEndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SignDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Car.CarRegisterNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Transaction.Id)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="untree_co-section before-footer-section">
+    <div class="container">
+        <div class="row mb-5">
+            <form class="col-md-12" method="post">
+                <div class="site-blocks-table">
+                    <table class="table" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <th>Car</th>
+                                <th>Car Owner</th>
+                                <th>Rent Start</th>
+                                <th>Rent End</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>  
+                        <tbody>
+                            @foreach (var item in Model.RentingList)
+                            {
+                                <tr>
+                                    <td>
+                                        <img style="width: 100%" src="data:image;base64,@item.Car.ImageBase64" alt="Image">
+                                        @item.Car.CarModel
+                                    </td>
+                                    <td>
+                                        <h5 class="text-black">@item.Car.CarOwner?.Fullname</h5>
+                                    </td>
+                                    <td>@item.RentStartDate</td>
+                                    <td>@item.RentEndDate</td>
+                                    <td>@item.ContractStatus</td>
+                                    <td>
+                                        @if (item.ContractStatus == ContractStatus.Signed)
+                                        {
+                                            <a class="btn btn-primary d-block mb-1" asp-page="CarReceived" asp-route-id="@item.Id">Car Received</a>
+                                            <a class="btn btn-danger d-block mb-1" asp-page="Cancel" asp-route-id="@item.Id">Cancel Rent</a>
+                                        }
+                                         <a class="btn btn-danger d-block mb-1" asp-page="Details" asp-route-id="@item.Id">Detail</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

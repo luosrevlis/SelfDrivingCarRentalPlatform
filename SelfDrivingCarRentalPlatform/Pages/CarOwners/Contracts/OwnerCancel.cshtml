@@ -1,0 +1,70 @@
+﻿@page
+@using SelfDrivingCarRentalPlatform.Constants;
+@model CarOwners.Contracts.OwnerCancelModel
+
+@{
+    ViewData["Title"] = "Cancel";
+    double cancelPenalty = Model.Contract.Transaction.CancelRentPenalty ?? 0;
+}
+
+<div class="untree_co-section before-footer-section">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-9 pl-5">
+                <div class="row justify-content-end">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-12 text-right border-bottom mb-3">
+                                <h1 class="text-black text-uppercase">Cancel Rent?</h1>
+                                @if (cancelPenalty > 0)
+                                {
+                                    <h5>If you cancel rent now, you will have to pay @cancelPenalty₫ as cancel penalty.</h5>
+                                }
+                                else
+                                {
+                                    <h5>You will not have to pay any penalty.</h5>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="text-black">Car</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">@Model.Contract.Car.CarModel</strong>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <span class="text-black">Rent Period</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">@Model.Contract.RentStartDate.ToString(CommonConst.DateFormatYmdHyphen) to @Model.Contract.RentEndDate.ToString(CommonConst.DateFormatYmdHyphen)</strong>
+                            </div>
+                        </div>
+                        <div class="row mb-5">
+                            <div class="col-md-6">
+                                <span class="text-black">Total Rent Fee</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black">@Model.Contract.Transaction.TotalPrice</strong>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="post">
+                                    <input type="hidden" asp-for="Contract.Id" />
+                                    <input class="btn btn-primary" type="submit" value="Cancel rent" />
+                                    <a class="btn btn-danger" asp-page="RentedList">Back to List</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,9 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObjects.Models;
 using Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SelfDrivingCarRentalPlatform.Constants;
+using SelfDrivingCarRentalPlatform.Attributes;
+using BusinessObjects.Enums;
 
 namespace SelfDrivingCarRentalPlatform.Pages.Cars
 {
+    [AuthorizeRole(UserRole.Customer, UserRole.CarOwner)]
     public class IndexModel : PageModel
     {
         private readonly ICarRepository _carRepository;
@@ -33,6 +37,9 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         public DateTime EndTime{ get; set; }
 
         [BindProperty]
+        public bool IsAdvancedSearch { get; set; }
+
+        [BindProperty]
         public double? MinPrice { get; set; }
 
         [BindProperty]
@@ -55,17 +62,17 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
 
         public IActionResult OnGet()
         {
-            StartTime = DateTime.Now;
-            EndTime = DateTime.Now.AddDays(1);
+            StartTime = DateTime.Now.AddDays(CommonConst.LBAdjust);
+            EndTime = DateTime.Now.AddDays(CommonConst.LBAdjust);
             PreparePage();
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            if (StartTime > EndTime)
+            if (!CheckDates(StartTime, EndTime, out string error))
             {
-                ErrorMsg = "Start date cannot be after end date!";
+                ErrorMsg = error;
                 PreparePage();
                 return Page();
             }
@@ -99,11 +106,14 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
 				: _carRepository.GetAll().ToList();
 
 			cars = GetCarsAfterFilterTime(cars, StartTime, EndTime);
-            cars = GetCarsAfterFilterPrice(cars, MinPrice, MaxPrice);
-            cars = GetCarsAfterFilterBrand(cars, BrandId);
-            cars = GetCarsAfterFilterType(cars, TypeId);
-            cars = GetCarsAfterFilterElectric(cars, IsElectric);
-            cars = GetCarsAfterFilterMortage(cars, NoMortgageRequired);
+            if (IsAdvancedSearch)
+            {
+                cars = GetCarsAfterFilterPrice(cars, MinPrice, MaxPrice);
+                cars = GetCarsAfterFilterBrand(cars, BrandId);
+                cars = GetCarsAfterFilterType(cars, TypeId);
+                cars = GetCarsAfterFilterElectric(cars, IsElectric);
+                cars = GetCarsAfterFilterMortage(cars, NoMortgageRequired);
+            }
 
             CarList = cars;
             PreparePage();
@@ -118,6 +128,32 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
             ViewData["TypeId"] = new SelectList(Types, "Id", "TypeName");
         }
 
+        private static bool CheckDates(DateTime rentStartDate, DateTime rentEndDate, out string error)
+        {
+            if (rentStartDate <= DateTime.Now || rentStartDate > DateTime.Now.AddDays(CommonConst.UBAdjust))
+            {
+                error = "Rent start date must be within 90 days from now!";
+                return false;
+            }
+            if (rentEndDate <= DateTime.Now || rentEndDate > DateTime.Now.AddDays(CommonConst.UBAdjust))
+            {
+                error = "Rent end date must be within 90 days from now!";
+                return false;
+            }
+            if (rentStartDate > rentEndDate)
+            {
+                error = "Rent start date cannot be before rent end date!";
+                return false;
+            }
+            if (rentStartDate.AddDays(CommonConst.MaxRentPeriod) < rentEndDate)
+            {
+                error = "Rent period must not exceed 7 days!";
+                return false;
+            }
+            error = string.Empty;
+            return true;
+        }
+
         private List<Car> GetCarsAfterFilterTime(List<Car> cars, DateTime startTime, DateTime endTime)
         {
             var contractIds = _contractRepository
@@ -128,7 +164,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
             return cars;
         }
 
-        private List<Car> GetCarsAfterFilterPrice(List<Car> cars, double? minPrice, double? maxPrice)
+        private static List<Car> GetCarsAfterFilterPrice(List<Car> cars, double? minPrice, double? maxPrice)
         {
             if (minPrice.HasValue)
             {
@@ -141,7 +177,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
             return cars;
         }
 
-        private List<Car> GetCarsAfterFilterBrand(List<Car> cars, int brandId)
+        private static List<Car> GetCarsAfterFilterBrand(List<Car> cars, int brandId)
         {
             if (brandId != 0)
             {
@@ -150,7 +186,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
             return cars;
         }
 
-        private List<Car> GetCarsAfterFilterType(List<Car> cars, int typeId)
+        private static List<Car> GetCarsAfterFilterType(List<Car> cars, int typeId)
         {
             if (typeId != 0)
             {
@@ -159,7 +195,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
             return cars;
         }
 
-        private List<Car> GetCarsAfterFilterMortage(List<Car> cars, bool noMortgage)
+        private static List<Car> GetCarsAfterFilterMortage(List<Car> cars, bool noMortgage)
         {
             if (noMortgage)
             {
@@ -168,7 +204,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
             return cars;
         }
 
-        private List<Car> GetCarsAfterFilterElectric(List<Car> cars, bool isElectric)
+        private static List<Car> GetCarsAfterFilterElectric(List<Car> cars, bool isElectric)
         {
             if (isElectric)
             {

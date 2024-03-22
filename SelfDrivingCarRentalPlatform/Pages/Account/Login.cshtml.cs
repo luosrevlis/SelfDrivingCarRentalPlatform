@@ -31,7 +31,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Account
 			}
 
 			var user = _userRepository.GetAll().FirstOrDefault(user =>
-				user.Email.Equals(Credential.Email, StringComparison.OrdinalIgnoreCase)
+				user.Email.Equals(Credential.Email)
 				&& user.Password.Equals(Credential.Password));
 
 			if (user != null)
@@ -44,7 +44,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Account
 				};
 
 				var identity = new ClaimsIdentity(claims, "LoginCookieAuth");
-				ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+				ClaimsPrincipal principal = new(identity);
 
 				await HttpContext.SignInAsync("LoginCookieAuth", principal);
 

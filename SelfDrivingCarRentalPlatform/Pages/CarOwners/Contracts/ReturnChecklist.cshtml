@@ -1,0 +1,83 @@
+﻿@page
+@model CarOwners.Contracts.ReturnChecklistModel
+
+@{
+    ViewData["Title"] = "Car Condition Checklist";
+}
+
+<div class="untree_co-section">
+    <div class="container">
+        <div class="row">
+            <!--Start Form-->
+            <form method="post">
+                <div class="col-md-12 mb-5 mb-md-0">
+                    <h2 class="h3 mb-3 text-black">Car Condition Checklist</h2>
+                    <div class="p-3 p-lg-5 border bg-white">
+                        <input asp-for="Checklist.ContractId" value="@Model.Checklist.ContractId" type="hidden" />
+
+                        <div class="form-group mb-3">
+                            <label class="text-black" data-bs-toggle="collapse" href="#damage-section" role="button" aria-expanded="false" aria-controls="damage-section">
+                                <input asp-for="Checklist.IsDamaged" type="checkbox"> The car is damaged.
+                            </label>
+                            <div class="collapse" id="damage-section">
+                                <div class="form-group">
+                                    <label asp-for="Checklist.DamageFee" class="text-black">Damage fee</label>
+                                    <input asp-for="Checklist.DamageFee" class="form-control" type="number" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="text-black" data-bs-toggle="collapse" href="#late-return-section" role="button" aria-expanded="false" aria-controls="late-return-section">
+                                <input asp-for="Checklist.IsLate" type="checkbox"> The car is returned late.
+                            </label>
+                            <div class="collapse" id="late-return-section">
+                                <div class="form-group">
+                                    <label asp-for="Checklist.TimeExceeded" class="text-black">Time exceeded by hours</label>
+                                    <input asp-for="Checklist.TimeExceeded" class="form-control" type="number" value="0" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="text-black" data-bs-toggle="collapse" href="#distance-exceeded-section" role="button" aria-expanded="false" aria-controls="distance-exceeded-section">
+                                <input asp-for="Checklist.IsOverused" type="checkbox"> The distance the car has travelled exceeded 300km/day.
+                            </label>
+                            <div class="collapse" id="distance-exceeded-section">
+                                <div class="form-group">
+                                    <label asp-for="Checklist.DistanceExceeded" class="text-black">Total distance exceeded by km</label>
+                                    <input asp-for="Checklist.DistanceExceeded" class="form-control" type="number" value="0" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="text-black">
+                                <input asp-for="Checklist.NeedsCleaning" type="checkbox"> The car needs cleaning.
+                            </label>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="text-black">
+                                <input asp-for="Checklist.NeedsDeodorizing" type="checkbox"> The car needs deodorizing.
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <p class="mb-1">When you click Submit, the renting contract will be marked as complete and the car will be available to be rent again.</p>
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                            <a class="btn btn-danger" asp-page="Index">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--End Form-->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

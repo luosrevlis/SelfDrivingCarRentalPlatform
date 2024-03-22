@@ -14,7 +14,7 @@ public class DrivingLicenseRepository : IDrivingLicenseRepository
 		_drivingLicenseDAO = drivingLicenseDAO;
 	}
 
-	public IEnumerable<DrivingLicense> GetAll()
+	public IQueryable<DrivingLicense> GetAll()
 	{
 		return _drivingLicenseDAO.GetAll();
 	}

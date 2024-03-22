@@ -4,8 +4,9 @@ namespace Repositories.Interfaces;
 
 public interface ITransactionRepository
 {
-    IEnumerable<Transaction> GetAll();
+    IQueryable<Transaction> GetAll();
     void Add(Transaction transaction);
     void Update(Transaction transaction);
     bool Remove(Transaction transaction);
+    double GetLateReturnFee(int id);
 }

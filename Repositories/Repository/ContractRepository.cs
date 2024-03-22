@@ -2,7 +2,8 @@ using BusinessObjects.Models;
 using DAOs;
 using Repositories.Interfaces;
 using System.Linq.Expressions;
-using System;
+using BusinessObjects.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repositories.Repository;
 
@@ -15,7 +16,7 @@ public class ContractRepository : IContractRepository
         _contractDAO = contractDAO;
     }
     
-    public IEnumerable<Contract> GetAll()
+    public IQueryable<Contract> GetAll()
     {
         return _contractDAO.GetAll();
     }
@@ -38,5 +39,54 @@ public class ContractRepository : IContractRepository
     public ICollection<Contract> GetAllByProperty(Expression<Func<Contract, bool>> condition)
     {
          return _contractDAO.GetListByProperty(condition);
+    }
+
+    public Contract? FindContractForCarReturn(int id, int carOwnerId)
+    {
+        return _contractDAO.GetAll()
+            .Include(contract => contract.Car)
+            .Include(contract => contract.Transaction)
+            .FirstOrDefault(contract => contract.Id == id
+            && contract.Car.CarOwnerId == carOwnerId
+            && !contract.IsDeleted
+            && contract.ContractStatus == ContractStatus.Received);
+    }
+
+    public Contract? FindContractForCarReceive(int id, int customerId)
+    {
+        return _contractDAO.GetAll()
+            .FirstOrDefault(contract => contract.Id == id
+            && contract.CustomerId == customerId
+            && !contract.IsDeleted
+            && contract.ContractStatus == ContractStatus.Signed);
+    }
+
+    public List<Contract> GetRentedHistory(int carOwnerId)
+    {
+        return _contractDAO
+            .GetAll()
+            .Include(contract => contract.Car)
+            .Where(contract => contract.Car.CarOwnerId == carOwnerId && !contract.IsDeleted)
+            .Include(contract => contract.Customer)
+            .OrderByDescending(contract => contract.SignDate)
+            .ToList();
+    }
+
+    public List<Contract> GetRentingHistory(int customerId)
+    {
+        return _contractDAO
+            .GetAll()
+            .Where(contract => contract.CustomerId == customerId && !contract.IsDeleted)
+            .Include(contract => contract.Car)
+            .ThenInclude(car => car.CarOwner)
+            .OrderByDescending(contract => contract.SignDate)
+            .ToList();
+    }
+
+    public Contract GetById(int contractId)
+    {
+        return  _contractDAO
+            .GetByIdWithInclude(entity => entity.Id == contractId,
+                e => e.Transaction).FirstOrDefault();
     }
 }

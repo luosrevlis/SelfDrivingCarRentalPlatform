@@ -1,4 +1,5 @@
 ﻿@page
+@using SelfDrivingCarRentalPlatform.Constants;
 @model Contracts.RentCarModel
 
 @{
@@ -30,7 +31,7 @@
             </div>
             <div class="col-lg-7">
                 <div class="hero-img-wrap">
-                    <img src="~/images/car-white-transparent-background.png" class="img-fluid">
+                    <img src="data:image;base64,@Model.Contract.Car.ImageBase64" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -42,20 +43,30 @@
         <div class="row justify-content-between">
             <div class="col-lg-7">
                 <h1 class="section-title">Terms of Service</h1>
+
+                <h3 class="section-title">Refund Policy</h3>
+                <p>- If the rent is cancelled within the first hour after the initial request, you will be refunded 100% of the deposit.</p>
+                <p>- If the rent is cancelled 3 days before the rent start date, you will be refunded 50% of the deposit.</p>
+                <p>- If the rent is cancelled one day before the rent start date, you will not be refunded the deposit.</p>
+
                 <h3 class="section-title">Insurance</h3>
                 <p>The car is insuranced. Customers only have to pay up to 2000000₫ in unintended accidents. <a href="#">See more</a></p>
+                
                 <h3 class="section-title">Deposit</h3>
                 <p>Customers have to deposit up to 30% of rent total for reserving. Deposit is returned upon returning the car.</p>
+                
                 <h3 class="section-title">Mortgage</h3>
                 <p>If the owner requires, customers have to mortgage 15000000₫ or a motorcycle worth at least 15000000₫</p>
+                
                 <h3 class="section-title">Other Notes</h3>
-                <p>- Use the car for the right purpose.</p>
+                <p>- Use the car for the intended purpose.</p>
                 <p>- Do not use the car for illegal purposes.</p>
                 <p>- Do not use the car to pledge or mortgage.</p>
                 <p>- Do not smoke, chew gum, or litter in the car.</p>
                 <p>- Do not carry prohibited goods that are flammable or explosive.</p>
                 <p>- Do not carry fruits or strong-smelling foods in the car.</p>
                 <p>- When returning the car, if the car is dirty or there is an odor in the car, please clean the car or pay an additional fee for cleaning the car.</p>
+
                 <h5 class="section-title">Sincerely thank you, we wish you wonderful trips!</h5>
             </div>
 
@@ -63,6 +74,10 @@
                 <div class="row mb-5">
                     <div class="col-md-12">
                         <div class="p-3 p-lg-5 border bg-white">
+                            <h5>
+                                <i class="fa-solid fa-location-dot"></i>
+                                Pickup Location: @Model.Contract.Car.PickupLocation
+                            </h5>
 
                             <table class="table site-block-order-table mb-5">
                                 <thead>
@@ -114,7 +129,65 @@
                                     <button class="btn btn-black btn-lg py-3 btn-block">Rent Car</button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <div class="p-3 p-lg-5 border bg-white">
+                            <h5 class="mb-3">Possible Surcharges</h5>
+                            <div class="border p-3 mb-3">
+                                <h3 class="h6 mb-0">
+                                    <a class="d-block" data-bs-toggle="collapse" href="#dist-fee-desc" role="button" aria-expanded="false" aria-controls="dist-fee-desc">
+                                        Distance Exceeded Fee: @CommonConst.DistanceExceededUnitFee₫/km
+                                    </a>
+                                </h3>
 
+                                <div class="collapse" id="dist-fee-desc">
+                                    <div class="py-2">
+                                        <p class="mb-0">Surcharge if the distance travelled by the car exceeded 300km/day</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border p-3 mb-3">
+                                <h3 class="h6 mb-0">
+                                    <a class="d-block" data-bs-toggle="collapse" href="#late-fee-desc" role="button" aria-expanded="false" aria-controls="late-fee-desc">
+                                        Time Exceeded Fee: @CommonConst.TimeExceededUnitFee₫/hr
+                                    </a>
+                                </h3>
+
+                                <div class="collapse" id="late-fee-desc">
+                                    <div class="py-2">
+                                        <p class="mb-0">Surcharge if the car is returned late. In the case of over @CommonConst.MaxTimeExceeded hours, charge 1 rent day.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border p-3 mb-3">
+                                <h3 class="h6 mb-0">
+                                    <a class="d-block" data-bs-toggle="collapse" href="#clean-fee-desc" role="button" aria-expanded="false" aria-controls="clean-fee-desc">
+                                        Cleaning Fee: @CommonConst.CleaningFee₫
+                                    </a>
+                                </h3>
+
+                                <div class="collapse" id="clean-fee-desc">
+                                    <div class="py-2">
+                                        <p class="mb-0">Surcharge if the returned car is in poor hygiene condition</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border p-3 mb-3">
+                                <h3 class="h6 mb-0">
+                                    <a class="d-block" data-bs-toggle="collapse" href="#odor-fee-desc" role="button" aria-expanded="false" aria-controls="odor-fee-desc">
+                                        Deodorizing Fee: @CommonConst.DeodorizeFee₫
+                                    </a>
+                                </h3>
+
+                                <div class="collapse" id="odor-fee-desc">
+                                    <div class="py-2">
+                                        <p class="mb-0">Surcharge if the car is stained with an unpleasant odor.</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

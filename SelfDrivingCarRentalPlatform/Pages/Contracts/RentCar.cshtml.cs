@@ -4,10 +4,11 @@ using BusinessObjects.Models;
 using Repositories.Interfaces;
 using BusinessObjects.Enums;
 using SelfDrivingCarRentalPlatform.Attributes;
+using SelfDrivingCarRentalPlatform.Constants;
 
 namespace SelfDrivingCarRentalPlatform.Pages.Contracts
 {
-    [AuthorizeRole(UserRole.Customer)]
+    [AuthorizeRole(UserRole.Customer, UserRole.CarOwner)]
     public class RentCarModel : PageModel
     {
         private readonly ICarRepository _carRepository;
@@ -36,12 +37,18 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             _userRepository = userRepository;
         }
 
-        public IActionResult OnGet(int carId, DateTime rentStartDate, DateTime rentEndDate)
+        public IActionResult OnGet(int carId, string start, string end)
         {
+            DateTime rentStartDate = DateTime.ParseExact(start, CommonConst.DateFormatYmdHyphen, null);
+            DateTime rentEndDate = DateTime.ParseExact(end, CommonConst.DateFormatYmdHyphen, null);
+            if (!CheckCar(carId, rentStartDate, rentEndDate))
+            {
+                return BadRequest();
+            }
             Contract.Customer = _userRepository.GetById(int.Parse(User.FindFirst("Id")!.Value));
             if (Contract.Customer.DrivingLicenseId == null)
             {
-                return BadRequest(); //redirect to driving license page
+                return RedirectToPage("../DrivingLicenses/Create");
             }
             InitContract(carId, rentStartDate, rentEndDate);
 
@@ -59,7 +66,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             Contract.Customer = _userRepository.GetById(int.Parse(User.FindFirst("Id")!.Value));
             if (Contract.Customer.DrivingLicenseId == null)
             {
-                return BadRequest(); //redirect to driving license page
+                return RedirectToPage("../DrivingLicenses/Create");
             }
             InitContract(Contract.CarId, Contract.RentStartDate, Contract.RentEndDate);
             Contract.SignDate = DateTime.Now;
@@ -80,12 +87,43 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             Contract.RentStartDate = rentStartDate;
             Contract.RentEndDate = rentEndDate;
 
-            double rentTotal = (int)(rentEndDate - rentStartDate).TotalDays * Contract.Car.PricePerDay;
+            int rentDays = (int)(rentEndDate - rentStartDate).TotalDays + 1;
+            double rentTotal = rentDays * Contract.Car.PricePerDay;
             Transaction.TotalPrice = rentTotal;
             Transaction.Deposit = rentTotal * Contract.Car.DepositRatio / 100;
-            Transaction.MortgageFee = Contract.Car.IsMortgageRequired ? 15000000 : 0;
-            Transaction.InsuranceFee = 90000;
+            Transaction.MortgageFee = Contract.Car.IsMortgageRequired ? CommonConst.MortgageFee : 0;
+            Transaction.InsuranceFee = CommonConst.InsuranceFee;
             Transaction.Contract = Contract;
+        }
+
+        private bool CheckCar(int carId, DateTime rentStartDate, DateTime rentEndDate)
+        {
+            // Date validation
+            if (rentStartDate <= DateTime.Now || rentStartDate > DateTime.Now.AddDays(CommonConst.UBAdjust))
+            {
+                return false;
+            }
+            if (rentEndDate <= DateTime.Now || rentEndDate > DateTime.Now.AddDays(CommonConst.UBAdjust))
+            {
+                return false;
+            }
+            if (rentStartDate > rentEndDate || rentStartDate.AddDays(CommonConst.MaxRentPeriod) < rentEndDate)
+            {
+                return false;
+            }
+            // Car validation
+            Car car = _carRepository.GetById(carId);
+            if (car == null || car.IsDeleted)
+            {
+                return false;
+            }
+            // Check overlaps
+            var overlappedContracts = _contractRepository
+                .GetAllByProperty(contract => contract.CarId == carId
+                && contract.RentStartDate <= rentEndDate
+                && rentStartDate <= contract.RentEndDate);
+
+            return !overlappedContracts.Any();
         }
     }
 }

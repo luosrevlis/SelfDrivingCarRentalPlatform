@@ -13,7 +13,7 @@ public class CarBrandRepository : ICarBrandRepository
         _carbrandDAO = carbrandDAO;
     }
 
-    public IEnumerable<CarBrand> GetAll()
+    public IQueryable<CarBrand> GetAll()
     {
         return _carbrandDAO.GetAll();
     }
