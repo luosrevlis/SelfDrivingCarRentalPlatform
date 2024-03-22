@@ -30,7 +30,7 @@ namespace SelfDrivingCarRentalPlatform.Pages.Account
         {
             if (!ModelState.IsValid || NewUser == null)
             {
-                return Page();
+                return OnGet();
             }
 
             _userRepository.Add(NewUser);
