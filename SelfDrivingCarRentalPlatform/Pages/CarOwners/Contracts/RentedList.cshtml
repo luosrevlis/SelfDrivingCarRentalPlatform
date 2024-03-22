@@ -27,7 +27,7 @@
                             {
                                 <tr>
                                     <td>
-                                        <img style="width: 100%" src="~/images/car-white-transparent-background.png" alt="Image">
+                                        <img style="width: 100%" src="data:image;base64,@item.Car.ImageBase64" alt="Image">
                                         @item.Car.CarModel
                                     </td>
                                     <td>
@@ -45,6 +45,8 @@
                                         {
                                             <a class="btn btn-danger d-block mb-1" asp-page="OwnerCancel" asp-route-id="@item.Id">Cancel Rent</a>
                                         }
+                                        
+                                        <a class="btn btn-primary d-block mb-1" asp-page="RentDetail" asp-route-contractId="@item.Id">Detail</a>
                                     </td>
                                 </tr>
                             }

@@ -4,6 +4,7 @@ using DAOs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace SelfDrivingCarRentalPlatform.Migrations
 {
     [DbContext(typeof(SdcrpDbContext))]
-    partial class SdcrpDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240319070854_ImagePathToUser")]
+    partial class ImagePathToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,9 +54,6 @@ namespace SelfDrivingCarRentalPlatform.Migrations
 
                     b.Property<int>("DepositRatio")
                         .HasColumnType("int");
-
-                    b.Property<string>("ImageBase64")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

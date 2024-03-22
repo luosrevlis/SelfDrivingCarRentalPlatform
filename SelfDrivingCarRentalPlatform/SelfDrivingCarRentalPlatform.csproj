@@ -31,6 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\CarOwners\Cars\" />
+    <Folder Include="Pages\Profile" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\scss\style.scss" />
   </ItemGroup>
 

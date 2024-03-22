@@ -29,5 +29,15 @@ namespace DAOs
         public DbSet<Location> Locations { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .Property(x => x.ImagePath)
+                .IsRequired(false);
+            modelBuilder.Entity<Car>()
+                .Property(x => x.ImageBase64)
+                .IsRequired(false);
+        }
     }
 }
