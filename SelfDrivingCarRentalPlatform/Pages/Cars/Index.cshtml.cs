@@ -17,14 +17,16 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
         private readonly IContractRepository _contractRepository;
         private readonly ICarBrandRepository _carBrandRepository;
         private readonly ICarTypeRepository _carTypeRepository;
+        private readonly IUserRepository _userRepository;
 
         public IndexModel(ICarRepository carRepository, IContractRepository contractRepository,
-            ICarBrandRepository carBrandRepository, ICarTypeRepository carTypeRepository)
+            ICarBrandRepository carBrandRepository, ICarTypeRepository carTypeRepository, IUserRepository userRepository)
         {
             _carRepository = carRepository;
             _contractRepository = contractRepository;
             _carBrandRepository = carBrandRepository;
             _carTypeRepository = carTypeRepository;
+            _userRepository = userRepository;
         }
 
         [BindProperty]
@@ -97,6 +99,15 @@ namespace SelfDrivingCarRentalPlatform.Pages.Cars
                         PreparePage();
                         return Page();
                     }
+                }
+                
+                // check if user have a driving license
+                User user = _userRepository.GetById(customerId);
+                if (user.DrivingLicense == null)
+                {
+                    ErrorMsg = "You need to upload your driving license before booking a car!";
+                    PreparePage();
+                    return Page();
                 }
             }
 
