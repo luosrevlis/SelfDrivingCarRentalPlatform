@@ -1,3 +1,4 @@
+using BusinessObjects.Enums;
 using BusinessObjects.Models;
 
 namespace Repositories.Interfaces;
@@ -9,4 +10,6 @@ public interface IUserRepository
     void Add(User user);
     void Update(User user);
     bool Remove(User user);
+    void Ban(User user);
+    void Unban(User user);
 }

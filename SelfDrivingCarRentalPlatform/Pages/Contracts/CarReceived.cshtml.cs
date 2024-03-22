@@ -15,6 +15,8 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             _contractRepository = contractRepository;
         }
 
+        [BindProperty]
+        public string ErrorMsg { get; set; } 
         public IActionResult OnGet(int id)
         {
             int userId = int.Parse(User.FindFirst("Id")!.Value);
@@ -23,9 +25,25 @@ namespace SelfDrivingCarRentalPlatform.Pages.Contracts
             {
                 return BadRequest();
             }
+            if (!checkTimeForCancel(contract))
+            {
+                ModelState.AddModelError(string.Empty, "Can not receive the car when not in the right day");
+                return Page();
+            }
             contract.ContractStatus = ContractStatus.Received;
             _contractRepository.Update(contract);
             return RedirectToPage("Index");
+        }
+        
+        // true means the startTime is today
+        private bool checkTimeForCancel(Contract contract)
+        {
+            if (contract.RentStartDate == DateTime.Now)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
