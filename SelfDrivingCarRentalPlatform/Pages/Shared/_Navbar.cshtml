@@ -1,43 +1,37 @@
 ﻿@using BusinessObjects.Enums;
+@{
+    string schemeAndHost = Context.Request.Scheme + "://" + Context.Request.Host;
+}
 @if (User.Identity != null && User.Identity.IsAuthenticated)
 {
     @if (User.IsInRole(UserRole.Admin.ToString()))
     {
         <li class="nav-item">
-            <a class="nav-link" asp-page="/Admin/Index">Admin Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-page="/Admin/Users/Index">User</a>
+            <a class="nav-link" href="@schemeAndHost/Admin/Users/Index">Users</a>
         </li>
     }
     @if (User.IsInRole(UserRole.CarOwner.ToString()))
     {
         <li class="nav-item">
-            <a class="nav-link" asp-page="/CarOwners/Cars/Index">Your Cars</a>
+            <a class="nav-link" href="@schemeAndHost/CarOwners/Cars/Index">Your Cars</a>
         </li>
         
         <li class="nav-item">
-            <a class="nav-link" asp-page="/CarOwners/Contracts/RentedList">Rented History</a>
-        </li>
-    }
-    @if (User.IsInRole(UserRole.Customer.ToString()))
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-page="/Customer/Index">Customer Home</a>
+            <a class="nav-link" href="@schemeAndHost/CarOwners/Contracts/RentedList">Rented History</a>
         </li>
     }
     @if (User.IsInRole(UserRole.Customer.ToString()) || User.IsInRole(UserRole.CarOwner.ToString()))
     {
         <li class="nav-item">
-            <a class="nav-link" asp-page="/Cars/Index">Search Cars</a>
+            <a class="nav-link" href="@schemeAndHost/Cars/Index">Search Cars</a>
         </li>
         
         <li class="nav-item">
-            <a class="nav-link" asp-page="/Contracts/Index">Renting History</a>
+            <a class="nav-link" href="@schemeAndHost/Contracts/Index">Rental History</a>
         </li>
         
         <li class="nav-item">
-            <a class="nav-link" asp-page="/DrivingLicenses/Details">Driving License</a>
+            <a class="nav-link" href="@schemeAndHost/DrivingLicenses/Details">Driving License</a>
         </li>
     }
 }
