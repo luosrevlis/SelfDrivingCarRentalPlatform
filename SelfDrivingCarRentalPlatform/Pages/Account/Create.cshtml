@@ -67,7 +67,7 @@
                             <div class="form-group col-6 col-md-6">
                                 <label class="text-black" asp-for="NewUser.Role" class="control-label">Role<span class="text-danger">*</span></label>
                                 <select class="form-control" asp-for="NewUser.Role" class="form-control" required>
-                                    <option value="">Choose role</option>
+                                    <option value="" hidden>Choose role</option>
                                     <option value="@UserRole.Customer">@UserRole.Customer</option>
                                     <option value="@UserRole.CarOwner">@UserRole.CarOwner</option>
                                 </select>
